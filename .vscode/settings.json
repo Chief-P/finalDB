@@ -3,6 +3,7 @@
         "inno.h": "c",
         "math.h": "c",
         "fs.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "hash.h": "c"
     }
 }

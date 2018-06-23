@@ -27,3 +27,9 @@ lib/hashStorage.o: lib/hashStorage.c
 
 lib/stack.o: lib/stack.c
 	$(CC) -c ./lib/stack.c -o ./lib/stack.o $(INCLUDE) -O2
+
+lib/func.o: lib/func.c
+	$(CC) -c ./lib/func.c -o ./lib/func.o $(INCLUDE) -O2
+
+lib/show.o: lib/show.c
+	$(CC) -c ./lib/show.c -o ./lib/show.o $(INCLUDE) -O2
