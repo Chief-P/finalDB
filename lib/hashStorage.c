@@ -117,13 +117,13 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
     else{
         target = CreateHashChain(hash);
         AddHashdata(target, data);
-        hashtable->size++;
         if(hashtable->size == 0){
             hashtable->head_hashchain = target;
             hashtable->tail_hashchain = target;
             hashtable->blocknum = 1;
             hashtable->index = calloc(1, sizeof(hashcptr));
             (hashtable->index)[0] = target;
+            hashtable->size = 1;
             target->isEnd = true;
             target->next = target->prev = target;
         }
@@ -151,14 +151,69 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
                 (where->next)->prev = target;
                 where->next = target;
             }
+            hashtable->size++;
             Int32 len = (Int32)floor(sqrt(hashtable->size));
-            hashcptr tamp = 
-            for()
+            hashtable->index = realloc(hashtable->index, 2 + (sizeof(hashcptr) * (hashtable->size + 1) / len));
+            if(len > (Int32)floor(sqrt(hashtable->size - 1))){
+                hashcptr temp = hashtable->head_hashchain;
+                (hashtable->index)[0] = hashtable->head_hashchain;
+                Int32 i, j;
+                for(i = 1; !(temp->isEnd); i++){
+                    for(j = 0; j < len && !(temp->isEnd); j++)temp = temp->next;
+                    (hashtable->index)[i] = temp;
+                }
+                hashtable->blocknum = i;
+            }else{
+                Int32 i;
+                if(where == nullptr){
+                    (hashtable->index)[0] = hashtable->head_hashchain;
+                    i = 1;
+                }
+                if(where == )
+            }
         }
     }
 }
 
 boolean DelHash(hashtptr hashtable, Int32 hash, Int32 data)
 {
-
+    hashcptr target = FindHash(hashtable, hash);
+    if(target == nullptr)return 1;
+    else{
+        DelHashdata(target, data);
+        if(target->_size > 0)return 0;
+        else{
+            if(hashtable->size == 1){
+                hashtable->head_hashchain = nullptr;
+                hashtable->tail_hashchain = nullptr;
+                hashtable->blocknum = 0;
+                free(hashtable->index);
+                hashtable->index = nullptr;
+                hashtable->size = 0;
+                FreeHashChain(target);
+            }else{
+                if(target->hash == (hashtable->head_hashchain)->hash){
+                    hashtable->head_hashchain = target->next;
+                }
+                if(target->hash == (hashtable->tail_hashchain)->hash){
+                    hashtable->tail_hashchain = target->prev;
+                    hashtable->tail_hashchain->isEnd = true;
+                }
+                (target->prev)->next = target->next;
+                (target->next)->prev = target->prev;
+                FreeHashChain(target);
+                hashtable->size--;
+                Int32 len = (Int32)floor(sqrt(hashtable->size));
+                hashcptr temp = hashtable->head_hashchain;
+                (hashtable->index)[0] = hashtable->head_hashchain;
+                Int32 i, j;
+                for(i = 1; !(temp->isEnd); i++){
+                    for(j = 0; j < len && !(temp->isEnd); j++)temp = temp->next;
+                    (hashtable->index)[i] = temp;
+                }
+                hashtable->blocknum = i;
+            }
+        }
+    }
+    return 0;
 }
