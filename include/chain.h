@@ -45,9 +45,9 @@ void _ExpandChain(chainptr chain);
 * this will be automatic
 * 
 * @params (chain: chainptr, block: blockptr)
-* @return block:blockptr
+* @return index:Int32
 */
-void AddChain(chainptr chain, blockptr block);
+Int32 AddChain(chainptr chain, blockptr block);
 
 /*
 * get a ptr of a block 

@@ -55,7 +55,6 @@ hashtptr CreateHashTable()
     hashtable->index = nullptr;
     hashtable->size = 0;
     hashtable->blocknum = 0;
-    hashtable->mid = nullptr;
     return hashtable;
 }
 
@@ -70,16 +69,17 @@ void FreeHashTable(hashtptr hashtable)
     free(hashtable);
 }
 
-stackptr SearchHash(hashtptr hashtable, Uint32 hash)
+hashcptr FindHash(hashtptr hashtable, Uint32 hash)
 {
     Int32 i = 0;
     for(i = 0; i < hashtable->blocknum; i++){
+        if(hash != (hashtable->index[i])->hash && i == hashtable->blocknum - 1)break;
         if(hash == (hashtable->index)[i]->hash){
-           return CopyEle((hashtable->index)[i]);
+           return (hashtable->index)[i];
         }else if(hash > (hashtable->index)[i]->hash && hash < (hashtable->index)[i+1]->hash){
             hashcptr temp = (hashtable->index)[i];
             for(;temp->hash != (hashtable->index)[i+1]->hash; temp = temp->next){
-                if(hash == temp->hash)return CopyEle(temp);
+                if(hash == temp->hash)return temp;
             }
             break;
         }
@@ -87,9 +87,75 @@ stackptr SearchHash(hashtptr hashtable, Uint32 hash)
     return nullptr;
 }
 
-void AddHash(hashtptr hashtable, Int32 hash, Int32 data)
+hashcptr FindPlace(hashtptr hashtable, Uint32 hash)
 {
-    hashtptr 
+    if(hash < (hashtable->head_hashchain)->hash)return nullptr;
+    Int32 i = 0;
+    for(i = 0; i < hashtable->blocknum - 1; i++){
+        if(hash > (hashtable->index)[i]->hash && hash < (hashtable->index)[i+1]->hash){
+            hashcptr temp = (hashtable->index)[i];
+            for(;temp->hash != (hashtable->index)[i+1]->hash; temp = temp->next){
+                if(hash > temp->hash && hash < (temp->next)->hash)return temp;
+            }
+            break;
+        }
+    }
+    return hashtable->tail_hashchain;
+}
+
+stackptr SearchHash(hashtptr hashtable, Uint32 hash)
+{
+    hashcptr target = FindHash(hashtable, hash);
+    if(target != nullptr)return CopyEle(target);
+    return nullptr;
+}
+
+void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
+{
+    hashcptr target = FindHash(hashtable, hash);
+    if(target != nullptr)AddHashdata(target, data);
+    else{
+        target = CreateHashChain(hash);
+        AddHashdata(target, data);
+        hashtable->size++;
+        if(hashtable->size == 0){
+            hashtable->head_hashchain = target;
+            hashtable->tail_hashchain = target;
+            hashtable->blocknum = 1;
+            hashtable->index = calloc(1, sizeof(hashcptr));
+            (hashtable->index)[0] = target;
+            target->isEnd = true;
+            target->next = target->prev = target;
+        }
+        else{
+            hashcptr where = FindPlace(hashtable, hash);
+            if(where == nullptr){
+                target->next = hashtable->head_hashchain;
+                target->prev = (hashtable->head_hashchain)->prev;
+                target->isEnd = false;
+                (hashtable->head_hashchain)->prev = target;
+                (hashtable->tail_hashchain)->next = target;
+                hashtable->head_hashchain = target;
+            }else if(where->isEnd == true){
+                target->prev = hashtable->tail_hashchain;
+                target->next = (hashtable->tail_hashchain)->next;
+                target->isEnd = true;
+                (hashtable->tail_hashchain)->next = target;
+                (hashtable->head_hashchain)->prev = target;
+                (hashtable->tail_hashchain)->isEnd = false;
+                hashtable->tail_hashchain = target;
+            }else{
+                target->prev = where;
+                target->next = where->next;
+                target->isEnd = false;
+                (where->next)->prev = target;
+                where->next = target;
+            }
+            Int32 len = (Int32)floor(sqrt(hashtable->size));
+            hashcptr tamp = 
+            for()
+        }
+    }
 }
 
 boolean DelHash(hashtptr hashtable, Int32 hash, Int32 data)

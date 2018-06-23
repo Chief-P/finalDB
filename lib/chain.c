@@ -29,14 +29,15 @@ void _ExpandChain(chainptr chain)
 }
 
 // add a block
-void AddChain(chainptr chain, blockptr block)
+Int32 AddChain(chainptr chain, blockptr block)
 {
     if(chain->_index >= chain->_length){
         _ExpandChain(chain);
     }
     Int32 index = chain->_index;
     (chain->blocks)[index] = block;
-    chain->_index++;   
+    chain->_index++;
+    return chain->_index - 1;   
 }
 
 // get a block

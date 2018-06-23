@@ -6,11 +6,20 @@
 #include <math.h>
 
 struct HashChain{
+    // isEnd should be determined by hashtable
     boolean              isEnd;
+    
+    // so should prev and next
     struct HashChain    *prev;
-    struct HashChain    *next;
+    struct HashChain    *next;  
+
+    // it can't be changed after created
     Uint32               hash;
+
+    // data should be the index of something, it doesn't storage the raw data
     Int32               *data;
+
+    // size
     Int32               _size;
 };
 typedef struct HashChain *hashcptr;
@@ -51,12 +60,19 @@ boolean DelHashdata(hashcptr hashchain, Int32 data);
 stackptr CopyEle(hashcptr hashchain);
 
 struct HashTable{
+    // head and tail nothing special
     hashcptr    head_hashchain;
     hashcptr    tail_hashchain;
-    hashcptr    *index;
+    
+    // it should be a circle
+    hashcptr    *index;  
+    
+    // it should be the num of index
+    // the length of a block in index is sqrt(n)
     Int32       blocknum;
+
+    // it's the total length of the  hashtable
     Int32       size;
-    hashcptr    mid;
 };
 typedef struct HashTable *hashtptr;
 
@@ -75,8 +91,22 @@ hashtptr CreateHashTable();
 void FreeHashTable(hashtptr hashtable);
 
 /*
+* search hashchain (not recommanded but can be called)
+* @params (hashtable:hashtptr, hash:Int32)
+* @return hashchain:hashcptr
+*/
+hashcptr FindHash(hashtptr hashtable, Uint32 hash);
+
+/*
+* search a place to insert (not recommanded but can be called)
+* @params (hashtable:hashtptr, hash:Int32)
+* @return hashchain:hashcptr
+*/
+hashcptr FindPlace(hashtptr hashtable, Uint32 hash);
+
+/*
 * search elements
-* @params (hashtable:hashtptr, hash:Int32, _cmp:boolean callback(blockptr, blockptr), element:blockptr)
+* @params (hashtable:hashtptr, hash:Int32)
 * @return stack:stackptr
 */
 stackptr SearchHash(hashtptr hashtable, Uint32 hash);
