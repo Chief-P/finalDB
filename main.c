@@ -9,6 +9,9 @@
 #include "include/stack.h"
 #include "include/types.h"
 
+// 
+
+// Book related constants
 #define MAXKEYWORDS 5
 #define MAXAUTHORS  5
 #define LENISBN     10
@@ -28,14 +31,19 @@
 // Clear Screen for UNIX
 #define clear() printf("\e[1;1H\e[2J");
 
+typedef char string255[32];
+
+// Mode
 int mode = INTERFACE;
 
+// Chain and HashTable
 chainptr chain;
 hashtptr isbnHashT;
 hashtptr nameHashT;
 hashtptr keywordsHashT;
 hashtptr authorsHashT;
 
+// Info of Book
 struct Book
 {
 	string isbn;
