@@ -1,5 +1,18 @@
 #include "include/myhead.h"
 
+// Mode
+extern Int32 mode;
+
+// Chain and HashTable
+extern chainptr chain;
+extern hashtptr isbnHashT;
+extern hashtptr nameHashT;
+extern hashtptr keywordsHashT;
+extern hashtptr authorsHashT;
+
+// IO pool
+extern IOPoolptr pool;
+
 // Get the current mode
 int getMode()
 {

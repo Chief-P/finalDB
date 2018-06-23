@@ -1,7 +1,7 @@
 #include "include/myhead.h"
 
 // Mode
-extern int mode = INTERFACE;
+extern Int32 mode;
 
 // Chain and HashTable
 extern chainptr chain;
@@ -9,6 +9,20 @@ extern hashtptr isbnHashT;
 extern hashtptr nameHashT;
 extern hashtptr keywordsHashT;
 extern hashtptr authorsHashT;
+
+// IO pool
+extern IOPoolptr pool;
+
+void readAllFile()
+{
+    Int32 fileID;
+    boolean status;
+    for (fileID = 0; !status; ++fileID)
+    {
+        
+        status = ReadFileU(pool, fileID, FILESIZE, 0, HEADER, );
+    }
+}
 
 void insert()
 {

@@ -2,7 +2,7 @@ CC  = gcc -static
 CCL = gcc -static 
 INCLUDE = -I.
 DST = a.out
-MODULE = lib/block.o lib/chain.o lib/fs.o lib/hash.o lab/hashStorage.o lib/stack.o
+MODULE = lib/block.o lib/chain.o lib/fs.o lib/hash.o lib/hashStorage.o lib/stack.o lib/func.o lib/show.o
 
 $(DST): $(MODULE) main.o
 	$(CC) main.o $(MODULE) -o $(DST) $(INCLUDE)

@@ -1,7 +1,7 @@
 #include "include/myhead.h"
 
 // Mode
-int mode = INTERFACE;
+Int32 mode;
 
 // Chain and HashTable
 chainptr chain;
@@ -10,15 +10,23 @@ hashtptr nameHashT;
 hashtptr keywordsHashT;
 hashtptr authorsHashT;
 
+// IO pool
+IOPoolptr pool;
+
 int main(int argc, char const *argv[])
 {
+	// Initialize
+	mode = INTERFACE;
+
     chain = CreateChain();
     isbnHashT = CreateHashTable();
     nameHashT = CreateHashTable();
     keywordsHashT = CreateHashTable();
     authorsHashT = CreateHashTable();
 
-    showMenu();
+	pool = CreateIOPool();
+
+    readAllFile();
     
 	showInterface();
 
@@ -37,9 +45,9 @@ int main(int argc, char const *argv[])
 			case INSERT :
 				insert();
 				break;
-			// case LOOKUP :
-			// 	lookup();
-			// 	break;
+			case LOOKUP :
+				lookup();
+				break;
 			// case UPDATE :
 			// 	update();
 			// 	break;

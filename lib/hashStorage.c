@@ -169,8 +169,8 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
                     (hashtable->index)[0] = hashtable->head_hashchain;
                     i = 1;
                 }
-                if(where == )
-            }
+            //     if(where == )
+            // }
         }
     }
 }

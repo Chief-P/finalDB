@@ -12,13 +12,17 @@
 #include "include/stack.h"
 #include "include/types.h"
 
+// File related constants
+#define FILESIZE 256
+#define HEADER   1
+
 // Book related constants
 #define MAXKEYWORDS 5
 #define MAXAUTHORS  5
-#define LENISBN     10
-#define LENNAME     10
-#define LENKEYWORD  20
-#define LENAUTHOR   20
+#define LENISBN     31
+#define LENNAME     31
+#define LENKEYWORD  31
+#define LENAUTHOR   31
 
 // Mode
 #define INTERFACE 0
