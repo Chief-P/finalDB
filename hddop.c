@@ -32,13 +32,13 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			Int32 header = 1;
-			if (Write2File(pool, header, fileID, sizeof(header), 0, 0))
+			if (Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET))
 			{
 				puts("Fatal error: Fail to write file!");
 				return false;
 			}
 			isFileExisted[i] = true; // Update
-			if (AppendFile(pool, book, fileID, sizeof(book)))
+			if (Write2File(pool, book, fileID, sizeof(book), 0, SEEK_CUR))
 			{
 				puts("Fatal error: Fail to append file!");
 				return false;

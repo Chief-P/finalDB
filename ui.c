@@ -30,13 +30,13 @@ void ClearScreen()
 Int32 getMode()
 {
 	Int32 res;
-	char c;
+	string2 c;
 
 	printf("$ ");
-	c = getchar();
-	getchar();
+	while (!getString(c, 1, true, false))
+		printf("$ ");
 
-	switch (c)
+	switch (c[0])
 	{
 		case 'i' : res = INSERT; break;
 		case 'l' : res = LOOKUP; break;

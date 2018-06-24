@@ -36,6 +36,8 @@ void insert()
 	// deleteFromDB(book);
 
 	free(book);
+
+	puts("* Enter any key to exit");
 }
 
 void lookup()

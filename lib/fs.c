@@ -122,7 +122,7 @@ boolean Write2File(IOPoolptr Pool, Gptr buffer ,const Int32 FileID, const Int32 
     Pool->Buffer = realloc(Pool->Buffer, 0);
     fseek(file, offset, origin);
     Int32 _size = fwrite(buffer, size, 1, file);
-    if(size != _size)return 2;
+    if(_size != 1)return 2;
     return 0;  
 }
 

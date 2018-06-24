@@ -62,6 +62,8 @@ int main(int argc, char const *argv[])
 		}
 	}
 
+	puts("OK");
+
 	// Free structure
 	FreeChain(chain);
 	FreeHashTable(isbnHashT);

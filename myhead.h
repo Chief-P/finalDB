@@ -61,6 +61,7 @@ void ClearScreen();
 // Clear Screen for win
 #define clear() system("cls");
 
+typedef char string2[3];
 typedef char string7[8];
 typedef char string13[16];
 typedef char string127[128];
