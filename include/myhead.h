@@ -1,6 +1,7 @@
 #ifndef MYHEAD_H
 #define MYHEAD_H
 
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,16 +14,20 @@
 #include "include/types.h"
 
 // File related constants
-#define FILESIZE 256
-#define HEADER   1
+#define FILESIZE    364544
+#define BLOCKNUM    256
+#define BLOCKSIZE   1424
+#define HEADERPOS   0
+#define CONTENTPOS  1
+#define HEADERSIZE  4
 
 // Book related constants
 #define MAXKEYWORDS 5
 #define MAXAUTHORS  5
-#define LENISBN     31
-#define LENNAME     31
-#define LENKEYWORD  31
-#define LENAUTHOR   31
+#define LENISBN     13
+#define LENNAME     127
+#define LENKEYWORD  127
+#define LENAUTHOR   127
 
 // Mode
 #define INTERFACE 0
@@ -34,17 +39,21 @@
 #define QUIT     -1
 
 // Clear Screen for UNIX
-#define clear() printf("\e[1;1H\e[2J");
+// #define clear() printf("\e[1;1H\e[2J");
 
-typedef char string255[32];
+// Clear Screen for win
+#define clear() system("cls");
+
+typedef char string13[16];
+typedef char string127[128];
 
 // Info of Book
 struct Book
 {
-	string255 isbn;
-	string255 name;
-	string255 keywords[MAXKEYWORDS];
-	string255 authors[MAXAUTHORS];
+	string13 isbn;
+	string127 name;
+	string127 keywords[MAXKEYWORDS];
+	string127 authors[MAXAUTHORS];
 };
 typedef struct Book *bookptr;
 
