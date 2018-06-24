@@ -5,7 +5,12 @@ blockptr CreateBlock(Gptr data, Int32 size)
 {
     blockptr block = (blockptr)calloc(1, sizeof(struct Block));
     block->_size = 0;
-    block->_data = calloc(1, 0);
+    if(data == nullptr)block->_data = calloc(1, 0);
+    else{
+        block->_size = size;
+        block->_data = calloc(1, size + 1);
+        memcpy(block->_data, data, size);
+    }
     return block;
 }
 

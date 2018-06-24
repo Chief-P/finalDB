@@ -104,9 +104,48 @@ void insertUI(bookptr book)
 
 void lookupUI()
 {
+	stackptr stack;
+
 	clear();
 	puts("-----Lookup Mode------");
-	puts("* Please enter isbn/name/keyword/author");
+	puts("* Please enter from isbn/name/keyword/author");
 	
-	while (!getString())
+	string7 key;
+	while (!getString(key, sizeof(key), false, false) 
+		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
+		puts("* Please enter a valid Key from isbn/name/keyword/author");
+	
+	string127 buf;
+	while (!getString(buf, sizeof(buf), false, false))
+		puts("* Please enter a valid value (max length 127)");
+
+	switch(key[0])
+	{
+		case 'i' :
+		case 'I' :
+			stack = SearchHash(isbnHashT, Hash(buf, strlen(buf), TIME33));
+			break;
+		case 'n' :
+		case 'N' :
+			stack = SearchHash(nameHashT, Hash(buf, strlen(buf), TIME33));
+			break;
+		case 'k' :
+		case 'K' :
+			stack = SearchHash(keywordsHashT, Hash(buf, strlen(buf), TIME33));
+			break;
+		case 'a' :
+		case 'A' :
+			stack = SearchHash(authorsHashT, Hash(buf, strlen(buf), TIME33));
+			break;
+	}
+
+	if (stack == nullptr)
+	{
+		puts("---Not found in DB---");
+		return;
+	}
+
+	// Display results
+
+	FreeStack(stack);
 }

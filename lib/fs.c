@@ -114,7 +114,7 @@ boolean ReadFileU(IOPoolptr Pool, const Int32 FileID, const Int32 size, const In
 
 
 // Writefile
-boolean WriteFile(IOPoolptr Pool, Gptr buffer ,const Int32 FileID, const Int32 size, const Int32 offset, const Int32 origin)
+boolean Write2File(IOPoolptr Pool, Gptr buffer ,const Int32 FileID, const Int32 size, const Int32 offset, const Int32 origin)
 {
     Int32 mode = Pool->_filemode[FileID] || 0x20;
     fileptr file = Pool->files[FileID];

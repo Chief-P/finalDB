@@ -78,7 +78,7 @@ boolean ReadFileU(IOPoolptr Pool, const Int32 FileID, const Int32 size, const In
 * @ params (buffer:Gptr, FileID:Int32, size:Int32, offset:Int32, origin:Int32)
 * @ return succ(0)/fail(>=1):boolean
 */
-boolean WriteFile(IOPoolptr Pool, Gptr buffer ,const Int32 FileID, const Int32 size, const Int32 offset, const Int32 origin);
+boolean Write2File(IOPoolptr Pool, Gptr buffer ,const Int32 FileID, const Int32 size, const Int32 offset, const Int32 origin);
 
 /*
 * Append from a buffer 

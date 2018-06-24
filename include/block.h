@@ -2,6 +2,8 @@
 #define BLOCK_H
 
 #include "include/types.h"
+#include <stdlib.h>
+#include <string.h>
 
 struct Block{
     // Should be data
