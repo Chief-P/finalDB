@@ -12,8 +12,8 @@ extern hashtptr authorsHashT;
 
 // IO pool
 extern IOPoolptr pool;
-extern boolean isFileExisted[MAXFILENUM];
-extern boolean isFileFull[MAXFILENUM];
+extern boolean isFileExisted[MAX_FILE_NUM];
+extern boolean isFileFull[MAX_FILE_NUM];
 
 // Get the current mode
 Int32 getMode()
@@ -30,10 +30,10 @@ Int32 getMode()
 		case 'i' : res = INSERT; break;
 		case 'l' : res = LOOKUP; break;
 		case 'u' : res = UPDATE; break;
-		case 'd' : res = DELETE; break;
+		case 'd' : res = REMOVE; break;
 		case 'v' : res = VIEW; break;
 		case 'q' : res = QUIT; break;
-		default : res = INTERFACE;
+		default : res = MENU;
 	}
 
 	return res;
@@ -64,33 +64,33 @@ void insertUI(bookptr book)
 	puts("* Press Enter if not existed");
 
 	printf("ISBN: ");
-	while (!getString(book->isbn, LENISBN, true, true))
+	while (!getString(book->isbn, LEN_ISBN, true, true))
 	{
 		puts("* Please enter a valid ISBN (13 digits)");
 		printf("ISBN: ");
 	}
 
 	printf("Name: ");
-	while (!getString(book->name, LENNAME, false, false))
+	while (!getString(book->name, LEN_NAME, false, false))
 	{
 		puts("* Please enter a valid Name (max length 127)");
 		printf("Name: ");
 	}
 
-	for (i = 0; i < MAXKEYWORDS; ++i)
+	for (i = 0; i < MAX_KEYWORDS; ++i)
 	{
 		printf("Keyword %ld: ", i + 1);
-		while (!getString(book->keywords[i], LENKEYWORD, false, true))
+		while (!getString(book->keywords[i], LEN_KEYWORD, false, true))
 		{
 			puts("* Please enter a valid Keyword (max length 127)");
 			printf("Keyword %ld: ", i + 1);
 		}
 	}
 
-	for (i = 0; i < MAXAUTHORS; ++i)
+	for (i = 0; i < MAX_AUTHORS; ++i)
 	{
 		printf("Author %ld: ", i + 1);
-		while (!getString(book->authors[i], LENAUTHOR, false, true))
+		while (!getString(book->authors[i], LEN_AUTHOR, false, true))
 		{
 			puts("* Please enter a valid Author (max length 127)");
 			printf("Author %ld: ", i + 1);

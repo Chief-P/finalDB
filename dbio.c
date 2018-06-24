@@ -12,15 +12,16 @@ extern hashtptr authorsHashT;
 
 // IO pool
 extern IOPoolptr pool;
-extern boolean isFileExisted[MAXFILENUM];
-extern boolean isFileFull[MAXFILENUM];
+extern boolean isFileExisted[MAX_FILE_NUM];
+extern boolean isFileFull[MAX_FILE_NUM];
 
-boolean writeDB(bookptr book)
+
+boolean writeToDB(bookptr book)
 {
 	Int32 i;
 	char dat[4] = "dat";
 
-	for (i = 0; i < MAXFILENUM; ++i)
+	for (i = 0; i < MAX_FILE_NUM; ++i)
 	{
 		if (!isFileExisted)
 		{
@@ -77,7 +78,7 @@ boolean writeDB(bookptr book)
 				puts("Fatal error: Fail to write file!");
 				return false;
 			}
-			if (header == BLOCKNUM)
+			if (header == BLOCK_NUM)
 				isFileFull[i] = true;
 			if (CloseFile(pool, fileID))
 			{

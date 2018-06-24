@@ -12,13 +12,13 @@ hashtptr authorsHashT;
 
 // IO pool
 IOPoolptr pool;
-boolean isFileExisted[MAXFILE];
-boolean isFileFull[MAXFILE];
+boolean isFileExisted[MAX_FILE_NUM];
+boolean isFileFull[MAX_FILE_NUM];
 
 int main(int argc, char const *argv[])
 {
 	// Initialize
-	mode = INTERFACE;
+	mode = MENU;
 
     chain = CreateChain();
     isbnHashT = CreateHashTable();
@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
 
 		switch (mode)
 		{
-			case INTERFACE :
+			case MENU :
 				showInterface();
 				break;
 			case INSERT :
@@ -53,7 +53,7 @@ int main(int argc, char const *argv[])
 			// case UPDATE :
 			// 	update();
 			// 	break;
-			// case DELETE :
+			// case REMOVE :
 			// 	delete();
 			// 	break;
 			// case VIEW :

@@ -18,30 +18,33 @@
 
 
 // File related constants
-#define MAXFILENUM  1024
-#define FILESIZE    364544
-#define BLOCKNUM    256
-#define BLOCKSIZE   1424
-#define HEADERPOS   0
-#define CONTENTPOS  1
-#define HEADERSIZE  4
+#define MAX_FILE_NUM   1024
+#define FILE_SIZE      364544
+#define BLOCK_NUM      256
+#define BLOCK_SIZE     1424
+#define HEADER_POS     0
+#define CONTENT_POS    1
+#define HEADER_SIZE    4
 
 // Book related constants
-#define MAXKEYWORDS 5
-#define MAXAUTHORS  5
-#define LENISBN     13
-#define LENNAME     127
-#define LENKEYWORD  127
-#define LENAUTHOR   127
+#define MAX_KEYWORDS   5
+#define MAX_AUTHORS    5
+#define LEN_ISBN       13
+#define LEN_NAME       127
+#define LEN_KEYWORD    127
+#define LEN_AUTHOR     127
+
+// Error related constants
+#define ADD_FILE_ERROR
 
 // Mode
-#define INTERFACE 0
-#define INSERT    1
-#define LOOKUP    2
-#define UPDATE    3
-#define DELETE    4
-#define VIEW      5
-#define QUIT     -1
+#define MENU        0
+#define INSERT      1
+#define LOOKUP      2
+#define UPDATE      3
+#define REMOVE      4
+#define VIEW        5
+#define QUIT       -1
 
 // Clear Screen for UNIX
 // #define clear() printf("\e[1;1H\e[2J");
@@ -57,8 +60,8 @@ struct Book
 {
 	string13 isbn;
 	string127 name;
-	string127 keywords[MAXKEYWORDS];
-	string127 authors[MAXAUTHORS];
+	string127 keywords[MAX_KEYWORDS];
+	string127 authors[MAX_AUTHORS];
 };
 typedef struct Book *bookptr;
 
@@ -70,5 +73,11 @@ void lookup();
 Int32 getMode();
 void showInterface();
 void insertUI(bookptr book);
+
+// DB IO
+boolean writeToDB(bookptr book);
+
+// Hash Ad
+boolean addToHash(bookptr book);
 
 #endif

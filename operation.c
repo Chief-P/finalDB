@@ -12,8 +12,8 @@ extern hashtptr authorsHashT;
 
 // IO pool
 extern IOPoolptr pool;
-extern boolean isFileExisted[MAXFILENUM];
-extern boolean isFileFull[MAXFILENUM];
+extern boolean isFileExisted[MAX_FILE_NUM];
+extern boolean isFileFull[MAX_FILE_NUM];
 
 void insert()
 {
@@ -24,22 +24,17 @@ void insert()
 	insertUI(book);
 
 	// Write into DB
-	boolean isWrite = writeDB(book);
+	boolean isWrite = writeToDB(book);
 
 	// Add to Block and HashTable
-	boolean isAdd = true;
 	if (!isWrite)
 		return;
-    blockptr block = CreateBlock(book, sizeof(struct Book));
-	Int32 index = AddChain(chain, block);
-    AddHash(isbnHashT, Hash(book->isbn, sizeof(book->isbn), TIME33), index);
-    AddHash(nameHashT, Hash(book->name, sizeof(book->name), TIME33), index);
-    AddHash(keywordsHashT, )
+	boolean isAdd = addToHash(book);
 
 	// Delete from DB
 	if (isAdd)
 		return;
-	
+	// deleteFromDB(book);
 }
 
 void lookup()
@@ -48,5 +43,3 @@ void lookup()
 	puts("Please enter the attribute of book");
 
 }
-
-void 
