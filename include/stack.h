@@ -63,6 +63,13 @@ void Push(stackptr stack, Int32 val);
 */
 Int32 Pop(stackptr stack);
 
+/*
+* determine if a stack is empty
+* @ params stack:stackptr
+* @ return empty
+*/
+boolean Empty(stackptr stack);
+
 //------------------------------------END------------------------------------------//
 
 #endif

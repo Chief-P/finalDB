@@ -15,6 +15,10 @@ IOPoolptr CreateIOPool()
 // Free a IOPool
 void FreeIOPool(IOPoolptr Pool)
 {
+    Int32 i = 0;
+    for(i = 0; i < Pool->_size; i++){
+        CloseFile(Pool, i);
+    }
     free(Pool->Buffer);
     free(Pool->files);
     free(Pool->_filemode);

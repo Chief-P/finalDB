@@ -166,7 +166,7 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
     }
 }
 
-boolean DelHash(hashtptr hashtable, Uint32 hash, Int32 data)
+boolean DelHash(hashtptr hashtable, Int32 hash, Int32 data)
 {
     hashcptr target = FindHash(hashtable, hash);
     if(target == nullptr)return 1;

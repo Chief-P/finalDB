@@ -125,4 +125,5 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data);
 */
 boolean DelHash(hashtptr hashtable, Uint32 hash, Int32 data);
 
+//------------------------------------END------------------------------------------//
 #endif

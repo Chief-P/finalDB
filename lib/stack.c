@@ -47,4 +47,10 @@ Int32 Pop(stackptr stack)
     return val;
 }
 
+// empty
+boolean Empty(stackptr stack)
+{
+    return (stack->size == 0)?true : false;
+}
 
+//------------------------------------END------------------------------------------//
