@@ -5,6 +5,10 @@
         "fs.h": "c",
         "string.h": "c",
         "hash.h": "c",
-        "myhead.h": "c"
+        "myhead.h": "c",
+        "stdio.h": "c",
+        "windows.h": "c",
+        "operation.h": "c",
+        "stringprocess.h": "c"
     }
 }

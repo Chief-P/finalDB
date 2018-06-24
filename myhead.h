@@ -11,6 +11,7 @@
 #include "include/hash.h"
 #include "include/hashStorage.h"
 #include "include/stack.h"
+#include "include/stringProcess.h"
 #include "include/types.h"
 
 // IO pool related constants
@@ -60,5 +61,8 @@ struct Book
 	string127 authors[MAXAUTHORS];
 };
 typedef struct Book *bookptr;
+
+void insert();
+void lookup();
 
 #endif

@@ -1,4 +1,4 @@
-#include "include/myhead.h"
+#include "myhead.h"
 
 // Mode
 Int32 mode;
