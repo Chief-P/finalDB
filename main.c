@@ -47,9 +47,9 @@ int main(int argc, char const *argv[])
 			case INSERT :
 				insert();
 				break;
-			case LOOKUP :
-				lookup();
-				break;
+			// case LOOKUP :
+			// 	lookup();
+			// 	break;
 			// case UPDATE :
 			// 	update();
 			// 	break;

@@ -18,7 +18,7 @@
 
 
 // File related constants
-#define MAXFILE     1024
+#define MAXFILENUM  1024
 #define FILESIZE    364544
 #define BLOCKNUM    256
 #define BLOCKSIZE   1424
@@ -62,7 +62,13 @@ struct Book
 };
 typedef struct Book *bookptr;
 
+// Operation
 void insert();
 void lookup();
+
+// UI
+Int32 getMode();
+void showInterface();
+void insertUI(bookptr book);
 
 #endif

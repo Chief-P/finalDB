@@ -12,8 +12,8 @@ extern hashtptr authorsHashT;
 
 // IO pool
 extern IOPoolptr pool;
-extern boolean isFileExisted[MAXFILE];
-extern boolean isFileFull[MAXFILE];
+extern boolean isFileExisted[MAXFILENUM];
+extern boolean isFileFull[MAXFILENUM];
 
 void insert()
 {
@@ -24,7 +24,7 @@ void insert()
 	insertUI(book);
 
 	// Write into DB
-	boolean isWrite = writeDB
+	boolean isWrite = writeDB(book);
 
 	// Add to Block and HashTable
 	boolean isAdd = true;
