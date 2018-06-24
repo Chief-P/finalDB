@@ -15,6 +15,17 @@ extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
 
+void ClearScreen()
+{
+#ifdef WIN32
+	system("cls");
+#elif __linux__
+	printf("\033[H\033[J");
+#else
+	printf("Platform not supported\n");
+#endif
+}
+
 // Get the current mode
 Int32 getMode()
 {
@@ -42,7 +53,7 @@ Int32 getMode()
 // Interface
 void showInterface()
 {
-	clear();
+	ClearScreen();
 	puts("|----Book Management System----|");
 	puts("|------------------------------|");
 	puts("|      Insert    :    i        |");
@@ -60,7 +71,7 @@ void insertUI(bookptr book)
 {
 	Int32 i;
 
-    clear();
+    ClearScreen();
 	puts("-----Insert Mode-----");
 	puts("* Please enter the information of book");
 	puts("* Press Enter to pass");
@@ -106,7 +117,7 @@ void lookupUI()
 {
 	stackptr stack;
 
-	clear();
+	ClearScreen();
 	puts("-----Lookup Mode------");
 	puts("* Please enter from isbn/name/keyword/author");
 	
@@ -146,6 +157,8 @@ void lookupUI()
 	}
 
 	// Display results
-	
+	bookptr = 
+	blockptr param = CreateBlock(book, sizeof(struct Book));
+	Filter(stack, chain, compare127, param);
 	FreeStack(stack);
 }

@@ -6,6 +6,7 @@ hashcptr CreateHashChain(Uint32 hash)
     hashchain->_size = 0;
     hashchain->data = calloc(1, 1);
     hashchain->hash = hash;
+    return hashchain;
 }
 
 void FreeHashChain(hashcptr hashchain)
@@ -17,8 +18,9 @@ void FreeHashChain(hashcptr hashchain)
 void AddHashdata(hashcptr hashchain, Int32 data)
 {
     Int32 i = 0;
-    for(i = 0; i < hashchain->_size; i++)
+    for(i = 0; i < (hashchain->_size); i++)
         if(data == (hashchain->data)[i])return;
+    
     hashchain->_size++;
     hashchain->data = realloc(hashchain->data, hashchain->_size * sizeof(Int32));
     (hashchain->data)[hashchain->_size - 1] = data;
@@ -28,7 +30,7 @@ void AddHashdata(hashcptr hashchain, Int32 data)
 boolean DelHashdata(hashcptr hashchain, Int32 data)
 {
     Int32 i = 0, j = 0;
-    for(i = 0; i < hashchain->_size; i++)
+    for(i = 0; i < (hashchain->_size); i++)
         if(data == (hashchain->data)[i]){
             for(j = i; j < hashchain->_size - 1; j++)(hashchain->data)[j] = (hashchain->data)[j + 1];
             break;
@@ -66,6 +68,8 @@ void FreeHashTable(hashtptr hashtable)
         temp1 = temp1->next;
         FreeHashChain(temp2);
     }
+    FreeHashChain(hashtable->tail_hashchain);
+    free(hashtable->index);
     free(hashtable);
 }
 
@@ -166,7 +170,7 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
     }
 }
 
-boolean DelHash(hashtptr hashtable, Int32 hash, Int32 data)
+boolean DelHash(hashtptr hashtable, Uint32 hash, Int32 data)
 {
     hashcptr target = FindHash(hashtable, hash);
     if(target == nullptr)return 1;
