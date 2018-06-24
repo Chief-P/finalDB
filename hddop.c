@@ -15,6 +15,52 @@ extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
 
+// void readFileTable()
+// {
+// }
+
+// void writeFileTable()
+// {
+// }
+
+// Read from DB and initialize
+void readAllFile()
+{
+	Int32 i, j;
+	printf("Loading...");
+	for (i = 0; i < MAX_FILE_NUM; ++i)
+	{
+		char fileName[5] = "dat ";
+		fileName[3] = (char)('0' + i);
+		Int32 fileID = AddFile(pool, fileName, RBIN);
+		if (fileID == -1)
+		{
+			isFileExisted[i] = false;
+			isFileFull[i] = false;
+			continue;
+		}
+		else
+			isFileExisted[i] = true;
+
+		Int32 header;
+		ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
+		if (header == BLOCK_NUM)
+			isFileFull[i] = true;
+		else
+			isFileFull[i] = false;
+
+		for (j = 0; j < header; ++j)
+		{
+			blockptr bufBlock = calloc(1, sizeof(struct Block));
+			ReadFileU(pool, fileID, sizeof(struct Block), sizeof(header), SEEK_SET, &bufBlock);
+			bookptr book = calloc(1, sizeof(struct Book));
+			GetData(bufBlock, book);
+			add2ChainHash(book);
+			FreeBlock(bufBlock);
+			free(book);
+		}
+	}
+}
 
 boolean writeToDB(bookptr book)
 {
@@ -65,12 +111,13 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			Int32 header;
-			if (ReadFileU(pool, fileID, sizeof(header), 0, 0, header))
+			if (ReadFileU(pool, fileID, sizeof(header), 0, 0, &header))
 			{
 				puts("Fatal error: Fail to read file!");
 				return false;
 			}
-			if (Write2File(pool, ++header, fileID, sizeof(header), 0, 0))
+			++header;
+			if (Write2File(pool, &header, fileID, sizeof(header), 0, 0))
 			{
 				puts("Fatal error: Fail to write file!");
 				return false;

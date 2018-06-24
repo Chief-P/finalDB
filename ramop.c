@@ -15,7 +15,7 @@ extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
 
-boolean addToHash(bookptr book)
+boolean add2ChainHash(bookptr book)
 {
     Int32 i;
 
@@ -78,7 +78,7 @@ boolean compareKeyword(blockptr dst, blockptr param)
     Int32 length = sizeof(bufParam->keywords[0]);
     for (i = 0; i < MAX_KEYWORDS; ++i)
         for (j = 0; j < length; ++j)
-            if (bufDst->keywords[i][j] != bufParam->keywords[j])
+            if ((bufDst->keywords[i])[j] != (bufParam->keywords[0])[j])
                 return false;
 
     return true;
@@ -96,7 +96,7 @@ boolean compareAuthor(blockptr dst, blockptr param)
     Int32 length = sizeof(bufParam->authors[0]);
     for (i = 0; i < MAX_AUTHORS; ++i)
          for (j = 0; j < length; ++j)
-            if (bufDst->authors[i][j] != bufParam->authors[j])
+            if ((bufDst->authors[i])[j] != (bufParam->authors[0])[j])
                 return false;
 
     return true;

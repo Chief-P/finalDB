@@ -28,7 +28,7 @@ void insert()
 	// Add to Block and HashTable
 	if (!isWrite)
 		return;
-	boolean isAdd = addToHash(book);
+	boolean isAdd = add2ChainHash(book);
 
 	// Delete from DB
 	if (isAdd)
@@ -37,7 +37,7 @@ void insert()
 
 	free(book);
 
-	puts("* Enter any key to exit");
+	puts("* Press Enter to exit");
 }
 
 void lookup()

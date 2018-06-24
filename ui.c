@@ -32,6 +32,10 @@ Int32 getMode()
 	Int32 res;
 	string2 c;
 
+	// Press Enter to exit
+	if (mode == INSERT || mode == LOOKUP || mode == REMOVE || mode == UPDATE)
+		return MENU;
+
 	printf("$ ");
 	while (!getString(c, 1, true, false))
 		printf("$ ");
@@ -42,7 +46,7 @@ Int32 getMode()
 		case 'l' : res = LOOKUP; break;
 		case 'u' : res = UPDATE; break;
 		case 'r' : res = REMOVE; break;
-		case 'v' : res = VIEW; break;
+		// case 'v' : res = VIEW; break;
 		case 'q' : res = QUIT; break;
 		default : res = MENU;
 	}
@@ -60,7 +64,7 @@ void showInterface()
 	puts("|      Lookup    :    l        |");
 	puts("|      Update    :    u        |");
 	puts("|      Remove    :    r        |");
-	puts("|        View    :    v        |");
+	// puts("|        View    :    v        |");
 	puts("|        Quit    :    q        |");
 	puts("|------------------------------|");
 	puts("* Please enter your command");
@@ -128,7 +132,7 @@ void lookupUI()
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
 		puts("* Please enter a valid Key from isbn/name/keyword/author");
 	
-	switch(key[0])
+	switch (key[0])
 	{
 		case 'i' :
 		case 'I' :

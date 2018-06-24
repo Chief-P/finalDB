@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
 
 	pool = CreateIOPool();
 
-    // readAllFile();
+    readAllFile();
     
 	showInterface();
 

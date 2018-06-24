@@ -18,7 +18,7 @@
 
 
 // File related constants
-#define MAX_FILE_NUM   1024
+#define MAX_FILE_NUM   128
 #define FILE_SIZE      364544
 #define BLOCK_NUM      256
 #define BLOCK_SIZE     1424
@@ -49,17 +49,9 @@
 #ifdef WIN32
 #include <windows.h>
 #endif
-// Clear Screen for UNIX
-// #define clear() printf("\e[1;1H\e[2J");
 
 // Clear Screen for win and linux
 void ClearScreen();
-
-// Clear Screen for UNIX
-// #define clear() printf("\e[1;1H\e[2J");
-
-// Clear Screen for win
-#define clear() system("cls");
 
 typedef char string2[3];
 typedef char string7[8];
@@ -84,12 +76,15 @@ void lookup();
 Int32 getMode();
 void showInterface();
 void insertUI(bookptr book);
+void lookupUI();
+void deleteUI();
 
 // HDD operation
+void readAllFile();
 boolean writeToDB(bookptr book);
 
 // RAM operation
-boolean addToHash(bookptr book);
+boolean add2ChainHash(bookptr book);
 boolean compareISBN(blockptr dst, blockptr param);
 boolean compareName(blockptr dst, blockptr param);
 boolean compareKeyword(blockptr dst, blockptr param);
