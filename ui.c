@@ -116,6 +116,8 @@ void insertUI(bookptr book)
 void lookupUI()
 {
 	stackptr stack;
+	blockptr param;
+	bookptr book = calloc(1, sizeof(struct Book));
 
 	ClearScreen();
 	puts("-----Lookup Mode------");
@@ -126,39 +128,63 @@ void lookupUI()
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
 		puts("* Please enter a valid Key from isbn/name/keyword/author");
 	
-	string127 buf;
-	while (!getString(buf, sizeof(buf), false, false))
-		puts("* Please enter a valid value (max length 127)");
-
 	switch(key[0])
 	{
 		case 'i' :
 		case 'I' :
-			stack = SearchHash(isbnHashT, Hash(buf, strlen(buf), TIME33));
+			while (!getString(book->isbn, LEN_ISBN, false, false))
+				puts("* Please enter a valid value (max length 13)");
+			stack = SearchHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33));
+			if (stack == nullptr)
+			{
+				puts("---Not found in DB---");
+				return;
+			}
+			param = CreateBlock(book, sizeof(struct Book));
+			Filter(stack, chain, compareISBN, param);
 			break;
 		case 'n' :
 		case 'N' :
-			stack = SearchHash(nameHashT, Hash(buf, strlen(buf), TIME33));
+			while (!getString(book->name, LEN_NAME, false, false))
+				puts("* Please enter a valid value (max length 127)");
+			stack = SearchHash(nameHashT, Hash(book->name, strlen(book->name), TIME33));
+			if (stack == nullptr)
+			{
+				puts("---Not found in DB---");
+				return;
+			}
+			param = CreateBlock(book, sizeof(struct Book));
+			Filter(stack, chain, compareName, param);
 			break;
 		case 'k' :
 		case 'K' :
-			stack = SearchHash(keywordsHashT, Hash(buf, strlen(buf), TIME33));
+			while (!getString(book->keywords[0], LEN_KEYWORD, false, false))
+				puts("* Please enter a valid value (max length 127)");
+			stack = SearchHash(keywordsHashT, Hash(book->keywords[0], strlen(book->keywords[0]), TIME33));
+			if (stack == nullptr)
+			{
+				puts("---Not found in DB---");
+				return;
+			}
+			param = CreateBlock(book, sizeof(struct Book));
+			Filter(stack, chain, compareKeyword, param);
 			break;
 		case 'a' :
 		case 'A' :
-			stack = SearchHash(authorsHashT, Hash(buf, strlen(buf), TIME33));
+			while (!getString(book->authors[0], LEN_NAME, false, false))
+				puts("* Please enter a valid value (max length 127)");
+			stack = SearchHash(authorsHashT, Hash(book->authors[0], strlen(book->authors[0]), TIME33));
+			if (stack == nullptr)
+			{
+				puts("---Not found in DB---");
+				return;
+			}
+			param = CreateBlock(book, sizeof(struct Book));
+			Filter(stack, chain, compareAuthor, param);
 			break;
 	}
 
-	if (stack == nullptr)
-	{
-		puts("---Not found in DB---");
-		return;
-	}
-
-	// Display results
-	bookptr = 
-	blockptr param = CreateBlock(book, sizeof(struct Book));
-	Filter(stack, chain, compare127, param);
+	free(book);
+	FreeBlock(param);
 	FreeStack(stack);
 }

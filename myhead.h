@@ -75,7 +75,7 @@ struct Book
 };
 typedef struct Book *bookptr;
 
-// Operation
+// Database operation
 void insert();
 void lookup();
 
@@ -84,10 +84,15 @@ Int32 getMode();
 void showInterface();
 void insertUI(bookptr book);
 
-// DB IO
+// HDD operation
 boolean writeToDB(bookptr book);
 
-// Hash Ad
+// RAM operation
 boolean addToHash(bookptr book);
+boolean compareISBN(blockptr dst, blockptr param);
+boolean compareName(blockptr dst, blockptr param);
+boolean compareKeyword(blockptr dst, blockptr param);
+boolean compareAuthor(blockptr dst, blockptr param);
+
 
 #endif

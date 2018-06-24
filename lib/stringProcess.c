@@ -1,4 +1,4 @@
-#include <include/stringProcess.h>
+#include "include/stringProcess.h"
 
 // Get a string
 boolean getString(string s, const Int32 maxLen, const boolean isFixed, const boolean allowEmpty)

@@ -19,14 +19,12 @@ extern boolean isFileFull[MAX_FILE_NUM];
 boolean writeToDB(bookptr book)
 {
 	Int32 i;
-	char dat[4] = "dat";
-
 	for (i = 0; i < MAX_FILE_NUM; ++i)
 	{
-		if (!isFileExisted)
+		char fileName[5] = "dat ";
+		if (!isFileExisted[i])
 		{
-			char postFix[2] = {i + '0', '\0'};
-			string fileName = strcat(dat, postFix);
+			fileName[3] = (char)('0' + i);
 			Int32 fileID = AddFile(pool, fileName, WBIN);
 			if (fileID == -1)
 			{
@@ -34,7 +32,7 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			Int32 header = 1;
-			if (WriteFile(pool, header, fileID, sizeof(header), 0, 0))
+			if (Write2File(pool, header, fileID, sizeof(header), 0, 0))
 			{
 				puts("Fatal error: Fail to write file!");
 				return false;
@@ -54,8 +52,7 @@ boolean writeToDB(bookptr book)
 		}
 		else if (!isFileFull[i])
 		{
-			char postFix[2] = {i + '0', '\0'};
-			string fileName = strcat(dat, postFix);
+			fileName[3] = (char)('0' + i);
 			Int32 fileID = AddFile(pool, fileName, WRBIN);
 			if (fileID == -1)
 			{
@@ -73,7 +70,7 @@ boolean writeToDB(bookptr book)
 				puts("Fatal error: Fail to read file!");
 				return false;
 			}
-			if (WriteFile(pool, ++header, fileID, sizeof(header), 0, 0))
+			if (Write2File(pool, ++header, fileID, sizeof(header), 0, 0))
 			{
 				puts("Fatal error: Fail to write file!");
 				return false;

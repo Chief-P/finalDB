@@ -85,7 +85,7 @@ boolean CloseFile(IOPoolptr Pool, const Int32 FileID)
 }
 
 // Readfile
-boolean ReadFile(IOPoolptr Pool, const Int32 FileID, const Int32 size, const Int32 offset, const Int32 origin)
+boolean ReadFileB(IOPoolptr Pool, const Int32 FileID, const Int32 size, const Int32 offset, const Int32 origin)
 {
     Int32 mode = Pool->_filemode[FileID] || 0x50;
     fileptr file = Pool->files[FileID];

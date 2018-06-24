@@ -64,7 +64,7 @@ boolean CloseFile(IOPoolptr Pool, const Int32 FileID);
 * @ params (FileID:Int32, size:Int32, offset:Int32, origin:Int32)
 * @ return succ(0)/fail(>=1):boolean
 */
-boolean ReadFile(IOPoolptr Pool, const Int32 FileID, const Int32 size, const Int32 offset,  const Int32 origin);
+boolean ReadFileB(IOPoolptr Pool, const Int32 FileID, const Int32 size, const Int32 offset,  const Int32 origin);
 
 /*
 * Read to custom buffer 

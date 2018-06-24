@@ -34,6 +34,8 @@ void insert()
 	if (isAdd)
 		return;
 	// deleteFromDB(book);
+
+	free(book);
 }
 
 void lookup()
