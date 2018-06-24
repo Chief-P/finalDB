@@ -15,6 +15,17 @@ extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
 
+//
+void ClearScreen(){
+#ifdef WIN32
+	system("cls");
+#elif __linux__
+	printf("\033[H\033[J");
+#else
+	printf("Platform not supported\n");
+#endif
+}
+
 // Get the current mode
 Int32 getMode()
 {
@@ -60,7 +71,7 @@ void insertUI(bookptr book)
 {
 	Int32 i;
 
-    clear();
+    ClearScreen();
 	puts("-----Insert Mode-----");
 	puts("* Please enter the information of book");
 	puts("* Press Enter to pass");
@@ -110,7 +121,7 @@ void lookupUI()
 	puts("-----Lookup Mode------");
 	puts("* Please enter from isbn/name/keyword/author");
 	
-	string7 key;
+	string127 key;
 	while (!getString(key, sizeof(key), false, false) 
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
 		puts("* Please enter a valid Key from isbn/name/keyword/author");

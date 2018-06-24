@@ -46,11 +46,14 @@
 #define VIEW        5
 #define QUIT       -1
 
+#ifdef WIN32
+#include <windows.h>
+#endif
 // Clear Screen for UNIX
 // #define clear() printf("\e[1;1H\e[2J");
 
-// Clear Screen for win
-#define clear() system("cls");
+// Clear Screen for win and linux
+void ClearScreen();
 
 typedef char string13[16];
 typedef char string127[128];
