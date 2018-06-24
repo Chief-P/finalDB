@@ -12,6 +12,7 @@
 #include "include/hashStorage.h"
 #include "include/stack.h"
 #include "include/stringProcess.h"
+#include "include/filter.h"
 #include "include/types.h"
 
 // IO pool related constants
@@ -52,6 +53,7 @@
 // Clear Screen for win
 #define clear() system("cls");
 
+typedef char string7[8];
 typedef char string13[16];
 typedef char string127[128];
 

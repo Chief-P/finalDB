@@ -31,3 +31,8 @@ boolean addToHash(bookptr book)
     
     return true; // To be improved, value should include file index
 }
+
+boolean compare(blockptr dst, blockptr param)
+{
+    
+}

@@ -146,6 +146,6 @@ void lookupUI()
 	}
 
 	// Display results
-
+	
 	FreeStack(stack);
 }
