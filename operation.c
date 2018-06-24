@@ -18,7 +18,6 @@ extern boolean isFileFull[MAX_FILE_NUM];
 void insert()
 {
     bookptr book = calloc(1, sizeof(struct Book));
-	Int32 i;
 
 	// User interface
 	insertUI(book);
@@ -39,7 +38,6 @@ void insert()
 
 void lookup()
 {
-	clear();
-	puts("Please enter the attribute of book");
-
+	// User interface
+	lookupUI();
 }

@@ -30,7 +30,7 @@ Int32 getMode()
 		case 'i' : res = INSERT; break;
 		case 'l' : res = LOOKUP; break;
 		case 'u' : res = UPDATE; break;
-		case 'd' : res = REMOVE; break;
+		case 'r' : res = REMOVE; break;
 		case 'v' : res = VIEW; break;
 		case 'q' : res = QUIT; break;
 		default : res = MENU;
@@ -48,7 +48,7 @@ void showInterface()
 	puts("|      Insert    :    i        |");
 	puts("|      Lookup    :    l        |");
 	puts("|      Update    :    u        |");
-	puts("|      Delete    :    d        |");
+	puts("|      Remove    :    r        |");
 	puts("|        View    :    v        |");
 	puts("|        Quit    :    q        |");
 	puts("|------------------------------|");
@@ -58,10 +58,12 @@ void showInterface()
 // Insert UI
 void insertUI(bookptr book)
 {
+	Int32 i;
+
     clear();
 	puts("-----Insert Mode-----");
 	puts("* Please enter the information of book");
-	puts("* Press Enter if not existed");
+	puts("* Press Enter to pass");
 
 	printf("ISBN: ");
 	while (!getString(book->isbn, LEN_ISBN, true, true))
@@ -100,3 +102,11 @@ void insertUI(bookptr book)
 	puts("---Successfully Inserted---");
 }
 
+void lookupUI()
+{
+	clear();
+	puts("-----Lookup Mode------");
+	puts("* Please enter isbn/name/keyword/author");
+	
+	while (!getString())
+}

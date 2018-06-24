@@ -29,5 +29,5 @@ boolean addToHash(bookptr book)
     for (i = 0; i < MAX_AUTHORS; ++i)
         AddHash(authorsHashT, Hash(book->authors[i], strlen(book->authors[i]), TIME33), index);
     
-    return true; // To be improved
+    return true; // To be improved, value should include file index
 }
