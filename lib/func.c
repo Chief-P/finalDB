@@ -12,6 +12,8 @@ extern hashtptr authorsHashT;
 
 // IO pool
 extern IOPoolptr pool;
+extern boolean isFileExisted[MAXFILE];
+extern boolean isFileFull[MAXFILE];
 
 /*
  * Get string with length restriction
@@ -58,21 +60,22 @@ boolean getString(string s, const Int32 maxLen, const boolean isFixed, const boo
 	return false;
 }
 
-// Read all file
+// Linear-read all file
 void readAllFile()
 {
-    Int32 i;
+    Int32 i, j;
     boolean isFailed;
     for (i = 0; i < BLOCKNUM; ++i)
     {
 		char postFix[2] = {i + '0', '\0'};
-        string fileName = strcat("DAT", postFix);
+        string fileName = strcat("dat", postFix);
 		Int32 fileID = AddFile(pool, fileName, RBIN);
 		Int32 headBuf;
 		string blockBuf = calloc(1, BLOCKSIZE);
         isFailed = ReadFileU(pool, fileID, FILESIZE, HEADERSIZE, 0, headBuf);
 		if (isFailed)
 			break;
+		for (j = 0; j < headBuf; ++j)
     }
 }
 
@@ -124,7 +127,48 @@ void insert()
 	puts("---Successfully Inserted---");
 
 	// Write into DB
-	
+	boolean isWritten = true;
+	for (i = 0; i < MAXFILE; ++i)
+	{
+		if (!isFileExisted)
+		{
+			char postFix[2] = {i + '0', '\0'};
+			string fileName = strcat("dat", postFix);
+			Int32 fileID = AddFile(pool, fileName, WBIN);
+			Int32 header = 1;
+			if (WriteFile(pool, header, fileID, sizeof(header), 0, 0))
+			{
+				isWritten = false;
+				puts("Fatal error: Fail to write file!");
+				break;
+			}
+			if (AppendFile(pool, book, fileID, sizeof(book)))
+				puts("Fatal error: Fail to append file!");
+			if (CloseFile(pool, fileID))
+				puts("Fatal error: Fail to close file!");
+			break;
+		}
+		else if (!isFileFull[i])
+		{
+			char postFix[2] = {i + '0', '\0'};
+			string fileName = strcat("dat", postFix);
+			Int32 fileID = AddFile(pool, fileName, ABIN);
+			if (AppendFile(pool, book, fileID, sizeof(book)))
+				puts("Fatal error: Fail to append file!");
+			if (CloseFile(pool, fileID))
+				puts("Fatal error: Fail to close file!");
+			break;
+		}
+	}
+	if (i == MAXFILE)
+	{
+		puts("Fatal error: DB is full!");
+		return;
+	}
+
+	char postFix[2] = {i + '0', '\0'};
+	string fileName = strcat("dat", postFix);
+
 
 	// Add to Block and HashTable
     blockptr block = CreateBlock(book, sizeof(struct Book));

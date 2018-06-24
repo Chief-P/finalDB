@@ -4,6 +4,7 @@
         "math.h": "c",
         "fs.h": "c",
         "string.h": "c",
-        "hash.h": "c"
+        "hash.h": "c",
+        "myhead.h": "c"
     }
 }

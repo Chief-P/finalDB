@@ -12,6 +12,8 @@ extern hashtptr authorsHashT;
 
 // IO pool
 extern IOPoolptr pool;
+extern boolean isFileExisted[MAXFILE];
+extern boolean isFileFull[MAXFILE];
 
 // Get the current mode
 int getMode()

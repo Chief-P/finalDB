@@ -1,4 +1,4 @@
-# Compatiblizing problem
+# Compatiblity problem
 
 clear screen
 

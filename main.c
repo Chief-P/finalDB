@@ -12,6 +12,8 @@ hashtptr authorsHashT;
 
 // IO pool
 IOPoolptr pool;
+boolean isFileExisted[MAXFILE];
+boolean isFileFull[MAXFILE];
 
 int main(int argc, char const *argv[])
 {
@@ -59,6 +61,14 @@ int main(int argc, char const *argv[])
 			// 	break;
 		}
 	}
+
+	// Free structure
+	FreeChain(chain);
+	FreeHashTable(isbnHashT);
+	FreeHashTable(nameHashT);
+	FreeHashTable(keywordsHashT);
+	FreeHashTable(authorsHashT);
+	FreeIOPool(pool);
 
 	return 0;
 }

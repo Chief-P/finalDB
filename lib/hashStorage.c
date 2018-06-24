@@ -154,28 +154,19 @@ void AddHash(hashtptr hashtable, Uint32 hash, Int32 data)
             hashtable->size++;
             Int32 len = (Int32)floor(sqrt(hashtable->size));
             hashtable->index = realloc(hashtable->index, 2 + (sizeof(hashcptr) * (hashtable->size + 1) / len));
-            if(len > (Int32)floor(sqrt(hashtable->size - 1))){
-                hashcptr temp = hashtable->head_hashchain;
-                (hashtable->index)[0] = hashtable->head_hashchain;
-                Int32 i, j;
-                for(i = 1; !(temp->isEnd); i++){
-                    for(j = 0; j < len && !(temp->isEnd); j++)temp = temp->next;
-                    (hashtable->index)[i] = temp;
-                }
-                hashtable->blocknum = i;
-            }else{
-                Int32 i;
-                if(where == nullptr){
-                    (hashtable->index)[0] = hashtable->head_hashchain;
-                    i = 1;
-                }
-            //     if(where == )
-            // }
+            hashcptr temp = hashtable->head_hashchain;
+            (hashtable->index)[0] = hashtable->head_hashchain;
+            Int32 i, j;
+            for(i = 1; !(temp->isEnd); i++){
+                for(j = 0; j < len && !(temp->isEnd); j++)temp = temp->next;
+                (hashtable->index)[i] = temp;
+            }
+            hashtable->blocknum = i;
         }
     }
 }
 
-boolean DelHash(hashtptr hashtable, Int32 hash, Int32 data)
+boolean DelHash(hashtptr hashtable, Uint32 hash, Int32 data)
 {
     hashcptr target = FindHash(hashtable, hash);
     if(target == nullptr)return 1;

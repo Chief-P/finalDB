@@ -13,7 +13,11 @@
 #include "include/stack.h"
 #include "include/types.h"
 
+// IO pool related constants
+
+
 // File related constants
+#define MAXFILE     1024
 #define FILESIZE    364544
 #define BLOCKNUM    256
 #define BLOCKSIZE   1424
