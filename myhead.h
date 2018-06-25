@@ -44,6 +44,7 @@
 #define UPDATE      3
 #define REMOVE      4
 #define VIEW        5
+#define RETURN      6
 #define QUIT       -1
 
 #ifdef WIN32
@@ -71,13 +72,21 @@ typedef struct Book *bookptr;
 // Database operation
 void insert();
 void lookup();
+void delete();
 
 // UI
 Int32 getMode();
 void showInterface();
+void showBook(bookptr book, Int32 i);
 void insertUI(bookptr book);
+void insertUIReturn();
 void lookupUI();
+void lookupUIHead();
+void lookupUIBody();
+void lookupUITail();
 void deleteUI();
+void deleteUIHead();
+void deleteUITail();
 
 // HDD operation
 void readAllFile();

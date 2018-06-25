@@ -32,8 +32,7 @@ Int32 getMode()
 	Int32 res;
 	string2 c;
 
-	// Press Enter to exit
-	if (mode == INSERT || mode == LOOKUP || mode == REMOVE || mode == UPDATE)
+	if (mode == RETURN)
 		return MENU;
 
 	printf("$ ");
@@ -68,6 +67,33 @@ void showInterface()
 	puts("|        Quit    :    q        |");
 	puts("|------------------------------|");
 	puts("* Please enter your command");
+}
+
+// Display the info of book
+void showBook(bookptr book)
+{
+	Int32 i;
+
+	puts("* Book info");
+	if (strlen(book->isbn))
+		printf("ISBN: %s\n", book->isbn);
+	if (strlen(book->name))
+		printf("Name: %s\n", book->name);
+	for (i = 0; i < MAX_KEYWORDS; ++i)
+		if (strlen(book->keywords[i]))
+			printf("Keyword %ld: %s\n", i + 1, book->keywords[i]);
+	for (i = 0; i < MAX_AUTHORS; ++i)
+		if (strlen(book->authors[i]))
+			printf("Author %ld: %s\n", i + 1, book->authors[i]);
+}
+
+void showReturn()
+{
+	puts("* Press Enter to return");
+	printf("$ ");
+	string2 tmp;
+	getString(tmp, 1, true, true);
+	mode = RETURN;
 }
 
 // Insert UI
@@ -113,25 +139,42 @@ void insertUI(bookptr book)
 			printf("Author %ld: ", i + 1);
 		}
 	}
-
-	puts("---Successfully Inserted---");
 }
 
+void insertUIReturn()
+{
+	puts("---Successfully Inserted---");
+	showReturn();
+}
+
+// Lookup UI
 void lookupUI()
 {
-	stackptr stack;
-	blockptr param;
-	bookptr book = calloc(1, sizeof(struct Book));
+	lookupUIHead();
+	lookupUIBody();
+	lookupUITail();
+}
 
+void lookupUIHead()
+{
 	ClearScreen();
 	puts("-----Lookup Mode------");
-	puts("* Please enter from isbn/name/keyword/author");
+	puts("* Please enter a Key from isbn/name/keyword/author");
+}
+
+void lookupUIBody()
+{
+	stackptr stack, filtedStack;
+	blockptr param;
+	bookptr book = calloc(1, sizeof(struct Book));
+	Int32 res[BLOCK_NUM], i;
 	
 	string7 key;
 	while (!getString(key, sizeof(key), false, false) 
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
 		puts("* Please enter a valid Key from isbn/name/keyword/author");
 	
+	puts("* Please enter corresponding value");
 	switch (key[0])
 	{
 		case 'i' :
@@ -145,7 +188,7 @@ void lookupUI()
 				return;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			Filter(stack, chain, compareISBN, param);
+			filtedStack =  Filter(stack, chain, compareISBN, param);
 			break;
 		case 'n' :
 		case 'N' :
@@ -158,7 +201,7 @@ void lookupUI()
 				return;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			Filter(stack, chain, compareName, param);
+			filtedStack = Filter(stack, chain, compareName, param);
 			break;
 		case 'k' :
 		case 'K' :
@@ -171,7 +214,7 @@ void lookupUI()
 				return;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			Filter(stack, chain, compareKeyword, param);
+			filtedStack = Filter(stack, chain, compareKeyword, param);
 			break;
 		case 'a' :
 		case 'A' :
@@ -184,11 +227,47 @@ void lookupUI()
 				return;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			Filter(stack, chain, compareAuthor, param);
+			filtedStack = Filter(stack, chain, compareAuthor, param);
 			break;
+	}
+
+	// Output
+	i = 0;
+	while(stack != nullptr)
+	{
+		res[i] = Pop(filtedStack);
+		GetData(GetChain(chain, res[i]), book);
+		showBook(book, i++);
 	}
 
 	free(book);
 	FreeBlock(param);
 	FreeStack(stack);
+}
+
+void lookupUITail()
+{
+	puts("---Successfully found---");
+	showReturn();
+}
+
+
+// Delete UI
+void deleteUI()
+{
+	deleteUIHead();
+	lookupUIBody();
+	deleteUITail();
+}
+
+void deleteUIHead()
+{
+	ClearScreen();
+	puts("-----Delete Mode------");
+	puts("* Please enter a Key from isbn/name/keyword/author");
+}
+
+void deleteUITail()
+{
+	puts("* Please enter the index of the book");
 }

@@ -84,7 +84,7 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			isFileExisted[i] = true; // Update
-			if (Write2File(pool, book, fileID, sizeof(book), 0, SEEK_CUR))
+			if (Write2File(pool, book, fileID, sizeof(struct Book), 0, SEEK_CUR))
 			{
 				puts("Fatal error: Fail to append file!");
 				return false;
@@ -99,15 +99,25 @@ boolean writeToDB(bookptr book)
 		else if (!isFileFull[i])
 		{
 			fileName[3] = (char)('0' + i);
-			Int32 fileID = AddFile(pool, fileName, WRBIN);
+			Int32 fileID = AddFile(pool, fileName, ABIN);
 			if (fileID == -1)
 			{
 				puts("Fatal error: Fail to add file!");
 				return false;
 			}
-			if (AppendFile(pool, book, fileID, sizeof(book)))
+			printf("err");
+			printf("%d", fileID);
+			if (AppendFile(pool, book, fileID, sizeof(struct Book)))
 			{
 				puts("Fatal error: Fail to append file!");
+				return false;
+			}
+			CloseFile(pool, fileID);
+
+			fileID = AddFile(pool, fileName, WRBIN);
+			if (fileID == -1)
+			{
+				puts("Fatal error: Fail to add file!");
 				return false;
 			}
 			Int32 header;

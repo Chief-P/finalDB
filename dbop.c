@@ -31,17 +31,26 @@ void insert()
 	boolean isAdd = add2ChainHash(book);
 
 	// Delete from DB
-	if (isAdd)
-		return;
+	// if (isAdd)
+	// 	return;
 	// deleteFromDB(book);
 
 	free(book);
 
-	puts("* Press Enter to exit");
+	insertUIReturn();
 }
 
 void lookup()
 {
 	// User interface
 	lookupUI();
+}
+
+void delete()
+{
+	// User interface
+	deleteUI();
+
+
+	deleteUIReturn();
 }

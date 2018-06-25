@@ -53,9 +53,9 @@ int main(int argc, char const *argv[])
 			// case UPDATE :
 			// 	update();
 			// 	break;
-			// case REMOVE :
-			// 	delete();
-			// 	break;
+			case REMOVE :
+				delete();
+				break;
 			// case VIEW :
 			// 	view();
 			// 	break;
