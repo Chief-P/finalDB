@@ -14,6 +14,7 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
+extern Int32 index2dat[MAX_BOOK_CAP];
 
 // void readFileTable()
 // {
@@ -52,21 +53,22 @@ void readAllFile()
 		for (j = 0; j < header; ++j)
 		{
 			blockptr bufBlock = calloc(1, sizeof(struct Block));
-			ReadFileU(pool, fileID, sizeof(struct Block), sizeof(header), SEEK_SET, &bufBlock);
+			ReadFileU(pool, fileID, sizeof(struct Block), 0, SEEK_CUR, bufBlock);
 			bookptr book = calloc(1, sizeof(struct Book));
 			GetData(bufBlock, book);
-			add2ChainHash(book);
+			add2ChainHash(book, i);
 			FreeBlock(bufBlock);
 			free(book);
 		}
 	}
 }
 
-boolean writeToDB(bookptr book)
+boolean writeToDB(bookptr book, Uint32 *datPosPtr)
 {
 	Int32 i;
 	for (i = 0; i < MAX_FILE_NUM; ++i)
 	{
+		// If file num is more than 9, modify here
 		char fileName[5] = "dat ";
 		if (!isFileExisted[i])
 		{
@@ -94,6 +96,7 @@ boolean writeToDB(bookptr book)
 				puts("Fatal error: Fail to close file!");
 				return false;
 			}
+			*datPosPtr = i;
 			return true;
 		}
 		else if (!isFileFull[i])
@@ -121,13 +124,13 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			Int32 header;
-			if (ReadFileU(pool, fileID, sizeof(header), 0, 0, &header))
+			if (ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header))
 			{
 				puts("Fatal error: Fail to read file!");
 				return false;
 			}
 			++header;
-			if (Write2File(pool, &header, fileID, sizeof(header), 0, 0))
+			if (Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET))
 			{
 				puts("Fatal error: Fail to write file!");
 				return false;
@@ -139,6 +142,7 @@ boolean writeToDB(bookptr book)
 				puts("Fatal error: Fail to close file!");
 				return false;
 			}
+			*datPosPtr = i;
 			return true;
 		}
 	}
@@ -147,7 +151,17 @@ boolean writeToDB(bookptr book)
 	return false;
 }
 
-boolean deleteFromDB(bookptr book)
+// Lazy delete
+boolean deleteFromDB(bookptr book, Uint32 datPos)
 {
+	// If file num is more than 9, modify here
+	char fileName[5] = "dat ";
+	fileName[3] = (char)(datPos + '0');
+	Int32 fileID = AddFile(pool, fileName, WRBIN);
+	if (fileID == -1)
+	{
+		puts("Fatal error: Fail to add file!");
+		return false;
+	}
 	
 }

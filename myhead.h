@@ -21,6 +21,7 @@
 
 
 // File related constants
+#define MAX_BOOK_CAP   32768
 #define MAX_FILE_NUM   128
 #define FILE_SIZE      364544
 #define BLOCK_NUM      256
@@ -85,7 +86,7 @@ void insertUI(bookptr book);
 void insertUIReturn();
 void lookupUI();
 void lookupUIHead();
-boolean lookupUIBody(Int32 *res);
+Int32 lookupUIBody(Int32 *res);
 void lookupUITail();
 void deleteUI(bookptr book);
 void deleteUIReturn();
@@ -94,11 +95,11 @@ void deleteUIReturn();
 
 // HDD operation
 void readAllFile();
-boolean writeToDB(bookptr book);
-boolean deleteFromDB(bookptr book);
+boolean writeToDB(bookptr book, Uint32 *datPosPtr);
+boolean deleteFromDB(bookptr book, Uint32 datPos);
 
 // RAM operation
-boolean add2ChainHash(bookptr book);
+boolean add2ChainHash(bookptr book, Uint32 datPos);
 boolean compareISBN(blockptr dst, blockptr param);
 boolean compareName(blockptr dst, blockptr param);
 boolean compareKeyword(blockptr dst, blockptr param);

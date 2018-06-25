@@ -14,21 +14,23 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
+extern Int32 index2dat[MAX_BOOK_CAP];
 
 void insert()
 {
     bookptr book = calloc(1, sizeof(struct Book));
+	Uint32 datPos;
 
 	// User interface
 	insertUI(book);
 
 	// Write into DB
-	boolean isWrite = writeToDB(book);
+	boolean isWrite = writeToDB(book, &datPos);
 
 	// Add to Chain and HashTable
 	if (!isWrite)
 		return;
-	boolean isAdd = add2ChainHash(book);
+	boolean isAdd = add2ChainHash(book, datPos);
 
 	// Delete from DB
 	// if (isAdd)

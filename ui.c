@@ -14,6 +14,7 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
+extern Int32 index2dat[MAX_BOOK_CAP];
 
 void ClearScreen()
 {
@@ -168,9 +169,9 @@ void lookupUIHead()
 /*
 * Core of Lookup
 * @ param: res(record list of index in chain)
-* @ return: succ(1)/fail(0)
+* @ return: list length
 */
-boolean lookupUIBody(Int32 *res)
+Int32 lookupUIBody(Int32 *res)
 {
 	stackptr stack, filtedStack;
 	blockptr param;
@@ -252,7 +253,7 @@ boolean lookupUIBody(Int32 *res)
 	FreeBlock(param);
 	FreeStack(stack);
 
-	return true;
+	return i;
 }
 
 void lookupUITail()
@@ -262,7 +263,7 @@ void lookupUITail()
 }
 
 
-// Delete UI
+// Delete UI: get the to-be-deleted book
 void deleteUI(bookptr book)
 {
 	Int32 res[MAX_RESULT_NUM];
@@ -271,13 +272,23 @@ void deleteUI(bookptr book)
 	puts("-----Delete Mode------");
 	puts("* Please enter a Key from isbn/name/keyword/author");
 
-	if (!lookupUIBody(res))
+	const Int32 resLen = lookupUIBody(res);
+	if (!resLen)
 		return;
 
 	puts("* Please enter the index of the book");
-	string2 index;
-	while (!getString(index, 2, false, false))
-		puts("* Please enter a valid index from the book list");
+	string2 indexBuf;
+	Int32 index = resLen + 1；
+	while (index > resLen)
+	{
+		puts("* Index should be in the list above");
+		while (!getString(indexBuf, 2, false, false))
+			puts("* Please enter a valid index from the book list");
+		index = atoi(indexBuf);
+	}
+		
+	Int32 chainPos = res[index];
+	GetData(GetChain(chain, res[chainPos]), book);
 }
 
 void deleteUIReturn()
