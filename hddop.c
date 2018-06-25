@@ -146,3 +146,8 @@ boolean writeToDB(bookptr book)
 	puts("Fatal error: DB is full!");
 	return false;
 }
+
+boolean deleteFromDB(bookptr book)
+{
+	
+}

@@ -25,7 +25,7 @@ void insert()
 	// Write into DB
 	boolean isWrite = writeToDB(book);
 
-	// Add to Block and HashTable
+	// Add to Chain and HashTable
 	if (!isWrite)
 		return;
 	boolean isAdd = add2ChainHash(book);
@@ -48,9 +48,18 @@ void lookup()
 
 void delete()
 {
-	// User interface
-	deleteUI();
+    bookptr book = calloc(1, sizeof(struct Book));
 
+	// User interface
+	deleteUI(book);
+
+	// Delete from DB
+	deleteFromDB(book);
+
+	// Remove from Chain and HashTable
+	removeFromChainHash(book);
+
+	free(book);
 
 	deleteUIReturn();
 }

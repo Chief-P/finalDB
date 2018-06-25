@@ -14,6 +14,9 @@
 #include "include/filter.h"
 #include "include/types.h"
 
+// UI related constants
+#define MAX_RESULT_NUM 99
+
 // IO pool related constants
 
 
@@ -77,20 +80,22 @@ void delete();
 // UI
 Int32 getMode();
 void showInterface();
-void showBook(bookptr book, Int32 i);
+void showBook(bookptr book, Int32 index);
 void insertUI(bookptr book);
 void insertUIReturn();
 void lookupUI();
 void lookupUIHead();
-void lookupUIBody();
+boolean lookupUIBody(Int32 *res);
 void lookupUITail();
-void deleteUI();
-void deleteUIHead();
-void deleteUITail();
+void deleteUI(bookptr book);
+void deleteUIReturn();
+// void deleteUIHead();
+// void deleteUITail();
 
 // HDD operation
 void readAllFile();
 boolean writeToDB(bookptr book);
+boolean deleteFromDB(bookptr book);
 
 // RAM operation
 boolean add2ChainHash(bookptr book);

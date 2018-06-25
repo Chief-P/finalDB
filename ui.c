@@ -70,11 +70,11 @@ void showInterface()
 }
 
 // Display the info of book
-void showBook(bookptr book)
+void showBook(bookptr book, Int32 index)
 {
 	Int32 i;
 
-	puts("* Book info");
+	printf("* Book %ld", index);
 	if (strlen(book->isbn))
 		printf("ISBN: %s\n", book->isbn);
 	if (strlen(book->name))
@@ -85,6 +85,7 @@ void showBook(bookptr book)
 	for (i = 0; i < MAX_AUTHORS; ++i)
 		if (strlen(book->authors[i]))
 			printf("Author %ld: %s\n", i + 1, book->authors[i]);
+	puts("///////////////////////////////");
 }
 
 void showReturn()
@@ -150,8 +151,10 @@ void insertUIReturn()
 // Lookup UI
 void lookupUI()
 {
+	Int32 res[MAX_RESULT_NUM];
+
 	lookupUIHead();
-	lookupUIBody();
+	lookupUIBody(res);
 	lookupUITail();
 }
 
@@ -162,13 +165,18 @@ void lookupUIHead()
 	puts("* Please enter a Key from isbn/name/keyword/author");
 }
 
-void lookupUIBody()
+/*
+* Core of Lookup
+* @ param: res(record list of index in chain)
+* @ return: succ(1)/fail(0)
+*/
+boolean lookupUIBody(Int32 *res)
 {
 	stackptr stack, filtedStack;
 	blockptr param;
 	bookptr book = calloc(1, sizeof(struct Book));
-	Int32 res[BLOCK_NUM], i;
-	
+	Int32 i;
+
 	string7 key;
 	while (!getString(key, sizeof(key), false, false) 
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
@@ -185,7 +193,7 @@ void lookupUIBody()
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return;
+				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filtedStack =  Filter(stack, chain, compareISBN, param);
@@ -198,7 +206,7 @@ void lookupUIBody()
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return;
+				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filtedStack = Filter(stack, chain, compareName, param);
@@ -211,7 +219,7 @@ void lookupUIBody()
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return;
+				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filtedStack = Filter(stack, chain, compareKeyword, param);
@@ -224,7 +232,7 @@ void lookupUIBody()
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return;
+				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filtedStack = Filter(stack, chain, compareAuthor, param);
@@ -233,7 +241,7 @@ void lookupUIBody()
 
 	// Output
 	i = 0;
-	while(stack != nullptr)
+	while(stack != nullptr && i < MAX_RESULT_NUM)
 	{
 		res[i] = Pop(filtedStack);
 		GetData(GetChain(chain, res[i]), book);
@@ -243,6 +251,8 @@ void lookupUIBody()
 	free(book);
 	FreeBlock(param);
 	FreeStack(stack);
+
+	return true;
 }
 
 void lookupUITail()
@@ -253,21 +263,34 @@ void lookupUITail()
 
 
 // Delete UI
-void deleteUI()
+void deleteUI(bookptr book)
 {
-	deleteUIHead();
-	lookupUIBody();
-	deleteUITail();
-}
+	Int32 res[MAX_RESULT_NUM];
 
-void deleteUIHead()
-{
 	ClearScreen();
 	puts("-----Delete Mode------");
 	puts("* Please enter a Key from isbn/name/keyword/author");
+
+	if (!lookupUIBody(res))
+		return;
+
+	puts("* Please enter the index of the book");
+	string2 index;
+	while (!getString(index, 2, false, false))
+		puts("* Please enter a valid index from the book list");
 }
 
-void deleteUITail()
+void deleteUIReturn()
 {
-	puts("* Please enter the index of the book");
+
 }
+
+// void deleteUIHead()
+// {
+
+// }
+
+// void deleteUITail()
+// {
+
+// }
