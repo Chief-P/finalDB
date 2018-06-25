@@ -51,9 +51,9 @@ int main(int argc, char const *argv[])
 			case LOOKUP :
 				lookup();
 				break;
-			// case UPDATE :
-			// 	update();
-			// 	break;
+			case UPDATE :
+				update();
+				break;
 			case REMOVE :
 				delete();
 				break;

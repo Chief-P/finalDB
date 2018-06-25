@@ -21,6 +21,7 @@ boolean add2ChainHash(bookptr book)
 
     blockptr block = CreateBlock(book, sizeof(struct Book));
 	Int32 index = AddChain(chain, block);
+    printf("%ld", index);
 
     AddHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     AddHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);

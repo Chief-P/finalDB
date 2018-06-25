@@ -309,3 +309,43 @@ void deleteUIReturn()
 // {
 
 // }
+
+void updateUIDel(bookptr book, Int32 index)
+{
+	Int32 res[MAX_RESULT_NUM];
+
+	ClearScreen();
+	puts("-----Update Mode------");
+	puts("* Please enter a Key from isbn/name/keyword/author to find the book");
+
+	const Int32 resLen = lookupUIBody(res);
+	if (!resLen)
+		return;
+
+	puts("* Please enter the index of the book in the list");
+	string2 iBuf;
+	Int32 i = resLen + 1;
+	while (i > resLen)
+	{
+		puts("* Index should be in the list above");
+		while (!getString(iBuf, 2, false, false))
+			puts("* Please enter a valid i from the book list");
+		i = atoi(iBuf);
+	}
+		
+	index = res[i];
+	GetData(GetChain(chain, index), book);
+}
+
+void updateUI(bookptr book, Int32 index)
+{
+	puts("* Please enter the to-be-updated Key from isbn/name/keyword/author");
+	string7 key;
+	while (!getString(key, sizeof(key), false, false) 
+		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
+		puts("* Please enter a valid Key from isbn/name/keyword/author");
+
+	puts("* Please enter the new value");
+	while (!getString())
+		puts("* Please enter a valid value (max length 127)");
+}

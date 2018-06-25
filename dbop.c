@@ -64,3 +64,25 @@ void delete()
 
 	deleteUIReturn();
 }
+
+void update()
+{
+	bookptr book = calloc(1, sizeof(struct Book));
+	Int32 index;
+
+	updateUIDel(book, index);
+
+	deleteFromDB(book);
+
+	deleteFromChainHash(book, index);
+
+	updateUI(book);
+
+	writeToDB(book);
+
+	add2ChainHash(book);
+
+	free(book);
+
+	updateUIReturn();
+}

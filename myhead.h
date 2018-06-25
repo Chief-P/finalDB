@@ -88,6 +88,7 @@ typedef struct Book *bookptr;
 void insert();
 void lookup();
 void delete();
+void update();
 
 // UI
 Int32 getMode();
@@ -103,6 +104,8 @@ void deleteUI(bookptr book, Int32 index);
 void deleteUIReturn();
 // void deleteUIHead();
 // void deleteUITail();
+void updateUIDel(bookptr book, Int32 index);
+void updateUI(bookptr book, Int32 index);
 
 // HDD operation
 void readAllFile();
