@@ -14,15 +14,13 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
-boolean add2ChainHash(bookptr book, datPosptr datPos)
+boolean add2ChainHash(bookptr book)
 {
     Int32 i;
 
     blockptr block = CreateBlock(book, sizeof(struct Book));
 	Int32 index = AddChain(chain, block);
-    index2datPos[index] = *datPos;
 
     AddHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     AddHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
@@ -32,6 +30,20 @@ boolean add2ChainHash(bookptr book, datPosptr datPos)
         AddHash(authorsHashT, Hash(book->authors[i], strlen(book->authors[i]), TIME33), index);
     
     return true; // To be improved, value should include file index
+}
+
+boolean deleteFromChainHash(bookptr book, Int32 index)
+{
+    Int32 i;
+    
+    DelHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
+    DelHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
+    for (i = 0; i < MAX_KEYWORDS; ++i)
+        DelHash(keywordsHashT, Hash(book->keywords[i], strlen(book->keywords[i]), TIME33), index);
+    for (i = 0; i < MAX_AUTHORS; ++i)
+        DelHash(authorsHashT, Hash(book->authors[i], strlen(book->authors[i]), TIME33), index);
+    
+    return true;
 }
 
 boolean compareISBN(blockptr dst, blockptr param)

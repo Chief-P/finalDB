@@ -70,16 +70,19 @@ struct Book
 	string127 name;
 	string127 keywords[MAX_KEYWORDS];
 	string127 authors[MAX_AUTHORS];
+
+	Uint32 filePos;
+	Uint32 bookPos;
 };
 typedef struct Book *bookptr;
 
 // Pos of block of date in file
-struct DatePosition
-{
-	Uint32 filePos;
-	Uint32 blockPos;
-};
-typedef struct DatePosition *datPosptr;
+// struct DatePosition
+// {
+// 	Uint32 filePos;
+// 	Uint32 blockPos;
+// };
+// typedef struct DatePosition *datPosptr;
 
 // Database operation
 void insert();
@@ -96,18 +99,19 @@ void lookupUI();
 void lookupUIHead();
 Int32 lookupUIBody(Int32 *res);
 void lookupUITail();
-void deleteUI(bookptr book);
+void deleteUI(bookptr book, Int32 index);
 void deleteUIReturn();
 // void deleteUIHead();
 // void deleteUITail();
 
 // HDD operation
 void readAllFile();
-boolean writeToDB(bookptr book, datPosptr dpptr);
-boolean deleteFromDB(bookptr book, datPosptr datPos);
+boolean writeToDB(bookptr book);
+boolean deleteFromDB(bookptr book);
 
 // RAM operation
-boolean add2ChainHash(bookptr book, datPosptr datPos);
+boolean add2ChainHash(bookptr book);
+boolean deleteFromChainHash(bookptr book, Int32 index);
 boolean compareISBN(blockptr dst, blockptr param);
 boolean compareName(blockptr dst, blockptr param);
 boolean compareKeyword(blockptr dst, blockptr param);

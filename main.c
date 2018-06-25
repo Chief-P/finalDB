@@ -14,7 +14,7 @@ hashtptr authorsHashT;
 IOPoolptr pool;
 boolean isFileExisted[MAX_FILE_NUM];
 boolean isFileFull[MAX_FILE_NUM];
-struct DatePosition index2datPos[MAX_BOOK_CAP];
+// struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 int main(int argc, char const *argv[])
 {

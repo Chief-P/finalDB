@@ -14,7 +14,6 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 // void readFileTable()
 // {
@@ -52,18 +51,15 @@ void readAllFile()
 
 		for (j = 0; j < header; ++j)
 		{
-			blockptr bufBlock = calloc(1, sizeof(struct Block));
-			ReadFileU(pool, fileID, sizeof(struct Block), 0, SEEK_CUR, bufBlock);
-			bookptr book = calloc(1, sizeof(struct Book));
-			GetData(bufBlock, book);
-			add2ChainHash(book, i);
-			FreeBlock(bufBlock);
-			free(book);
+			bookptr bookBuf = calloc(1, sizeof(struct Book));
+			ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf);
+			add2ChainHash(bookBuf, i);
+			free(bookBuf);
 		}
 	}
 }
 
-boolean writeToDB(bookptr book, datPosptr datPos)
+boolean writeToDB(bookptr book)
 {
 	Int32 i;
 	for (i = 0; i < MAX_FILE_NUM; ++i)
@@ -96,8 +92,8 @@ boolean writeToDB(bookptr book, datPosptr datPos)
 				puts("Fatal error: Fail to close file!");
 				return false;
 			}
-			datPos->filePos = i;
-			datPos->blockPos = header - 1;
+			book->filePos = i;
+			book->bookPos = header - 1;
 			return true;
 		}
 		else if (!isFileFull[i])
@@ -143,8 +139,8 @@ boolean writeToDB(bookptr book, datPosptr datPos)
 			}
 			if (header == BLOCK_NUM)
 				isFileFull[i] = true;
-			datPos->filePos = i;
-			datPos->blockPos = header - 1;
+			book->filePos = i;
+			book->bookPos = header - 1;
 			return true;
 		}
 	}
@@ -154,11 +150,11 @@ boolean writeToDB(bookptr book, datPosptr datPos)
 }
 
 // Lazy delete
-boolean deleteFromDB(bookptr book, Uint32 datPos)
+boolean deleteFromDB(bookptr book)
 {
 	// If file num is more than 9, modify here
 	char fileName[5] = "dat ";
-	fileName[3] = (char)(datPos + '0');
+	fileName[3] = (char)(book->filePos + '0');
 	Int32 fileID = AddFile(pool, fileName, WRBIN);
 	if (fileID == -1)
 	{
@@ -167,7 +163,12 @@ boolean deleteFromDB(bookptr book, Uint32 datPos)
 	}
 
 	Int32 header;
+	bookptr bookBuf = calloc(1, sizeof(struct Book));
 	ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
-	
+	ReadFileU(pool, fileID, sizeof(struct Book), -sizeof(struct Book), SEEK_END, bookBuf);
+	Write2File(pool, bookBuf, fileID, sizeof(struct Book), book->bookPos, 0);
+	--header;
+	Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET);
 	CloseFile(pool, fileID);
+	free(bookBuf);
 }

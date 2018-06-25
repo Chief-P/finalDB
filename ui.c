@@ -14,7 +14,6 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 void ClearScreen()
 {
@@ -264,7 +263,7 @@ void lookupUITail()
 
 
 // Delete UI: get the to-be-deleted book
-void deleteUI(bookptr book)
+void deleteUI(bookptr book, Int32 index)
 {
 	Int32 res[MAX_RESULT_NUM];
 
@@ -276,24 +275,25 @@ void deleteUI(bookptr book)
 	if (!resLen)
 		return;
 
-	puts("* Please enter the index of the book");
-	string2 indexBuf;
-	Int32 index = resLen + 1；
-	while (index > resLen)
+	puts("* Please enter the index of the book in the list");
+	string2 iBuf;
+	Int32 i = resLen + 1;
+	while (i > resLen)
 	{
 		puts("* Index should be in the list above");
-		while (!getString(indexBuf, 2, false, false))
-			puts("* Please enter a valid index from the book list");
-		index = atoi(indexBuf);
+		while (!getString(iBuf, 2, false, false))
+			puts("* Please enter a valid i from the book list");
+		i = atoi(iBuf);
 	}
 		
-	Int32 chainPos = res[index];
-	GetData(GetChain(chain, res[chainPos]), book);
+	index = res[i];
+	GetData(GetChain(chain, index), book);
 }
 
 void deleteUIReturn()
 {
-
+	puts("---Successfully deleted---");
+	showReturn();
 }
 
 // void deleteUIHead()

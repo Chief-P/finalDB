@@ -14,23 +14,21 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 void insert()
 {
     bookptr book = calloc(1, sizeof(struct Book));
-	datPosptr datPos = calloc(1, sizeof(struct DatePosition));
 
 	// User interface
 	insertUI(book);
 
 	// Write into DB
-	boolean isWrite = writeToDB(book, datPos);
+	boolean isWrite = writeToDB(book);
 
 	// Add to Chain and HashTable
 	if (!isWrite)
 		return;
-	boolean isAdd = add2ChainHash(book, datPos);
+	boolean isAdd = add2ChainHash(book);
 
 	// Delete from DB
 	// if (isAdd)
@@ -38,7 +36,6 @@ void insert()
 	// deleteFromDB(book);
 
 	free(book);
-	free(datPos);
 
 	insertUIReturn();
 }
@@ -52,15 +49,16 @@ void lookup()
 void delete()
 {
     bookptr book = calloc(1, sizeof(struct Book));
+	Int32 index;
 
 	// User interface
-	deleteUI(book);
+	deleteUI(book, index);
 
 	// Delete from DB
 	deleteFromDB(book);
 
 	// Remove from Chain and HashTable
-	removeFromChainHash(book);
+	deleteFromChainHash(book, index);
 
 	free(book);
 
