@@ -94,7 +94,7 @@ boolean ReadFileB(IOPoolptr Pool, const Int32 FileID, const Int32 size, const In
     Pool->Buffer = realloc(Pool->Buffer, size + 1);
     fseek(file, offset, origin);
     Int32 _size = fread(Pool->Buffer, size, 1, file);
-    if(size != _size)return 2;
+    if(_size != 1)return 2;
     return 0;   
 }
 
@@ -108,7 +108,7 @@ boolean ReadFileU(IOPoolptr Pool, const Int32 FileID, const Int32 size, const In
     buffer = calloc(1 , (size + 1));
     fseek(file, offset, origin);
     Int32 _size = fread(buffer, size, 1, file);
-    if(size != _size)return 2;
+    if(_size != 1)return 2;
     return 0;
 }
 
@@ -134,7 +134,7 @@ boolean AppendFile(IOPoolptr Pool, Gptr buffer, const Int32 FileID, const Int32 
     Pool->Buffer = realloc(Pool->Buffer, 0);
     if(mode == 0x20)fseek(file, 0, SEEK_END);
     Int32 _size = fwrite(buffer, size, 1, file);
-    if(size != _size)return 2;
+    if(_size != 1)return 2;
     return 0;
 }
 

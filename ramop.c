@@ -35,6 +35,9 @@ boolean add2ChainHash(bookptr book)
 boolean deleteFromChainHash(bookptr book, Int32 index)
 {
     Int32 i;
+    // Start from 1
+    ++index;
+    printf("%ld", index);
     
     DelHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     DelHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);

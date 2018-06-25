@@ -88,12 +88,15 @@ void showBook(bookptr book, Int32 index)
 	puts("//////////////////////////");
 }
 
+// Function as system("pause");
 void showReturn()
 {
-	puts("* Press Enter to return");
-	printf("$ ");
-	string2 tmp;
-	getString(tmp, 1, true, true);
+	printf("* ");
+	system("pause");
+	// puts("* Press Enter to return");
+	// printf("$ ");
+	// string2 tmp;
+	// getString(tmp, 1, false, true);
 	mode = RETURN;
 }
 

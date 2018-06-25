@@ -43,7 +43,8 @@ void readAllFile()
 			isFileExisted[i] = true;
 
 		Int32 header;
-		ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
+		if (ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header))
+			puts("Fatal error: Fail to read file!");
 		if (header == BLOCK_NUM)
 			isFileFull[i] = true;
 		else
@@ -52,7 +53,9 @@ void readAllFile()
 		for (j = 0; j < header; ++j)
 		{
 			bookptr bookBuf = calloc(1, sizeof(struct Book));
-			ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf);
+			if (ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf))
+				puts("Fatal error: Fail to read file!");
+			printf("%s\n", bookBuf->isbn);
 			add2ChainHash(bookBuf);
 			free(bookBuf);
 		}
@@ -143,7 +146,6 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			CloseFile(pool, fileID);
-
 
 			return true;
 		}
