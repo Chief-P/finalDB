@@ -14,7 +14,7 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern Int32 index2dat[MAX_BOOK_CAP];
+extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 // void readFileTable()
 // {
@@ -63,7 +63,7 @@ void readAllFile()
 	}
 }
 
-boolean writeToDB(bookptr book, Uint32 *datPosPtr)
+boolean writeToDB(bookptr book, datPosptr datPos)
 {
 	Int32 i;
 	for (i = 0; i < MAX_FILE_NUM; ++i)
@@ -96,7 +96,8 @@ boolean writeToDB(bookptr book, Uint32 *datPosPtr)
 				puts("Fatal error: Fail to close file!");
 				return false;
 			}
-			*datPosPtr = i;
+			datPos->filePos = i;
+			datPos->blockPos = header - 1;
 			return true;
 		}
 		else if (!isFileFull[i])
@@ -135,14 +136,15 @@ boolean writeToDB(bookptr book, Uint32 *datPosPtr)
 				puts("Fatal error: Fail to write file!");
 				return false;
 			}
-			if (header == BLOCK_NUM)
-				isFileFull[i] = true;
 			if (CloseFile(pool, fileID))
 			{
 				puts("Fatal error: Fail to close file!");
 				return false;
 			}
-			*datPosPtr = i;
+			if (header == BLOCK_NUM)
+				isFileFull[i] = true;
+			datPos->filePos = i;
+			datPos->blockPos = header - 1;
 			return true;
 		}
 	}
@@ -163,5 +165,9 @@ boolean deleteFromDB(bookptr book, Uint32 datPos)
 		puts("Fatal error: Fail to add file!");
 		return false;
 	}
+
+	Int32 header;
+	ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
 	
+	CloseFile(pool, fileID);
 }

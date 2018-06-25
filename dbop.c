@@ -14,18 +14,18 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern Int32 index2dat[MAX_BOOK_CAP];
+extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 void insert()
 {
     bookptr book = calloc(1, sizeof(struct Book));
-	Uint32 datPos;
+	datPosptr datPos = calloc(1, sizeof(struct DatePosition));
 
 	// User interface
 	insertUI(book);
 
 	// Write into DB
-	boolean isWrite = writeToDB(book, &datPos);
+	boolean isWrite = writeToDB(book, datPos);
 
 	// Add to Chain and HashTable
 	if (!isWrite)
@@ -38,6 +38,7 @@ void insert()
 	// deleteFromDB(book);
 
 	free(book);
+	free(datPos);
 
 	insertUIReturn();
 }

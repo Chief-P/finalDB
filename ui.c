@@ -14,7 +14,7 @@ extern hashtptr authorsHashT;
 extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
-extern Int32 index2dat[MAX_BOOK_CAP];
+extern struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 void ClearScreen()
 {

@@ -22,7 +22,7 @@
 
 // File related constants
 #define MAX_BOOK_CAP   32768
-#define MAX_FILE_NUM   128
+#define MAX_FILE_NUM   128     // Should be less than 10
 #define FILE_SIZE      364544
 #define BLOCK_NUM      256
 #define BLOCK_SIZE     1424
@@ -73,6 +73,14 @@ struct Book
 };
 typedef struct Book *bookptr;
 
+// Pos of block of date in file
+struct DatePosition
+{
+	Uint32 filePos;
+	Uint32 blockPos;
+};
+typedef struct DatePosition *datPosptr;
+
 // Database operation
 void insert();
 void lookup();
@@ -95,11 +103,11 @@ void deleteUIReturn();
 
 // HDD operation
 void readAllFile();
-boolean writeToDB(bookptr book, Uint32 *datPosPtr);
-boolean deleteFromDB(bookptr book, Uint32 datPos);
+boolean writeToDB(bookptr book, datPosptr dpptr);
+boolean deleteFromDB(bookptr book, datPosptr datPos);
 
 // RAM operation
-boolean add2ChainHash(bookptr book, Uint32 datPos);
+boolean add2ChainHash(bookptr book, datPosptr datPos);
 boolean compareISBN(blockptr dst, blockptr param);
 boolean compareName(blockptr dst, blockptr param);
 boolean compareKeyword(blockptr dst, blockptr param);
