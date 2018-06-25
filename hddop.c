@@ -53,7 +53,7 @@ void readAllFile()
 		{
 			bookptr bookBuf = calloc(1, sizeof(struct Book));
 			ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf);
-			add2ChainHash(bookBuf, i);
+			add2ChainHash(bookBuf);
 			free(bookBuf);
 		}
 	}
@@ -76,6 +76,8 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			Int32 header = 1;
+			book->filePos = i;
+			book->bookPos = header - 1;
 			if (Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET))
 			{
 				puts("Fatal error: Fail to write file!");
@@ -92,29 +94,15 @@ boolean writeToDB(bookptr book)
 				puts("Fatal error: Fail to close file!");
 				return false;
 			}
-			book->filePos = i;
-			book->bookPos = header - 1;
 			return true;
 		}
 		else if (!isFileFull[i])
 		{
+			// Rollback is not realized
 			fileName[3] = (char)('0' + i);
-			Int32 fileID = AddFile(pool, fileName, ABIN);
-			if (fileID == -1)
-			{
-				puts("Fatal error: Fail to add file!");
-				return false;
-			}
-			printf("err");
-			printf("%d", fileID);
-			if (AppendFile(pool, book, fileID, sizeof(struct Book)))
-			{
-				puts("Fatal error: Fail to append file!");
-				return false;
-			}
-			CloseFile(pool, fileID);
 
-			fileID = AddFile(pool, fileName, WRBIN);
+			// Modify the header
+			Int32 fileID = AddFile(pool, fileName, WRBIN);
 			if (fileID == -1)
 			{
 				puts("Fatal error: Fail to add file!");
@@ -139,8 +127,24 @@ boolean writeToDB(bookptr book)
 			}
 			if (header == BLOCK_NUM)
 				isFileFull[i] = true;
+
+			// Append the book
+			fileID = AddFile(pool, fileName, ABIN);
+			if (fileID == -1)
+			{
+				puts("Fatal error: Fail to add file!");
+				return false;
+			}
 			book->filePos = i;
 			book->bookPos = header - 1;
+			if (AppendFile(pool, book, fileID, sizeof(struct Book)))
+			{
+				puts("Fatal error: Fail to append file!");
+				return false;
+			}
+			CloseFile(pool, fileID);
+
+
 			return true;
 		}
 	}

@@ -74,7 +74,7 @@ void showBook(bookptr book, Int32 index)
 {
 	Int32 i;
 
-	printf("* Book %ld", index);
+	printf("* Book [%ld]\n", index);
 	if (strlen(book->isbn))
 		printf("ISBN: %s\n", book->isbn);
 	if (strlen(book->name))
@@ -85,7 +85,7 @@ void showBook(bookptr book, Int32 index)
 	for (i = 0; i < MAX_AUTHORS; ++i)
 		if (strlen(book->authors[i]))
 			printf("Author %ld: %s\n", i + 1, book->authors[i]);
-	puts("///////////////////////////////");
+	puts("//////////////////////////");
 }
 
 void showReturn()
@@ -154,8 +154,10 @@ void lookupUI()
 	Int32 res[MAX_RESULT_NUM];
 
 	lookupUIHead();
-	lookupUIBody(res);
-	lookupUITail();
+	Int32 length = lookupUIBody(res);
+	if (length)
+		lookupUITail();
+	showReturn();
 }
 
 void lookupUIHead()
@@ -172,7 +174,7 @@ void lookupUIHead()
 */
 Int32 lookupUIBody(Int32 *res)
 {
-	stackptr stack, filtedStack;
+	stackptr stack, filteredStack;
 	blockptr param;
 	bookptr book = calloc(1, sizeof(struct Book));
 	Int32 i;
@@ -196,7 +198,7 @@ Int32 lookupUIBody(Int32 *res)
 				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			filtedStack =  Filter(stack, chain, compareISBN, param);
+			filteredStack =  Filter(stack, chain, compareISBN, param);
 			break;
 		case 'n' :
 		case 'N' :
@@ -209,7 +211,7 @@ Int32 lookupUIBody(Int32 *res)
 				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			filtedStack = Filter(stack, chain, compareName, param);
+			filteredStack = Filter(stack, chain, compareName, param);
 			break;
 		case 'k' :
 		case 'K' :
@@ -222,7 +224,7 @@ Int32 lookupUIBody(Int32 *res)
 				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			filtedStack = Filter(stack, chain, compareKeyword, param);
+			filteredStack = Filter(stack, chain, compareKeyword, param);
 			break;
 		case 'a' :
 		case 'A' :
@@ -235,15 +237,15 @@ Int32 lookupUIBody(Int32 *res)
 				return false;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
-			filtedStack = Filter(stack, chain, compareAuthor, param);
+			filteredStack = Filter(stack, chain, compareAuthor, param);
 			break;
 	}
 
 	// Output
 	i = 0;
-	while(stack != nullptr && i < MAX_RESULT_NUM)
+	while(!Empty(filteredStack) && i < MAX_RESULT_NUM)
 	{
-		res[i] = Pop(filtedStack);
+		res[i] = Pop(filteredStack);
 		GetData(GetChain(chain, res[i]), book);
 		showBook(book, i++);
 	}
@@ -258,7 +260,6 @@ Int32 lookupUIBody(Int32 *res)
 void lookupUITail()
 {
 	puts("---Successfully found---");
-	showReturn();
 }
 
 
