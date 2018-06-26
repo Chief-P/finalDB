@@ -85,7 +85,7 @@ void showBook(bookptr book, Int32 index)
 	for (i = 0; i < MAX_AUTHORS; ++i)
 		if (strlen(book->authors[i]))
 			printf("Author %ld: %s\n", i + 1, book->authors[i]);
-	puts("//////////////////////////");
+	puts("////////////////////////////////////////////////////");
 }
 
 // Function as system("pause");

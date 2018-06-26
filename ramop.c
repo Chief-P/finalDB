@@ -21,7 +21,7 @@ boolean add2ChainHash(bookptr book)
 
     blockptr block = CreateBlock(book, sizeof(struct Book));
 	Int32 index = AddChain(chain, block);
-    printf("add: %ld", index);
+    printf("add: %ld\n", index);
 
     AddHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     AddHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
@@ -36,7 +36,9 @@ boolean add2ChainHash(bookptr book)
 boolean deleteFromChainHash(bookptr book, Int32 index)
 {
     Int32 i;
-    printf("delete: %ld", index);
+    printf("delete: %ld\n", index);
+
+    // Delete from chain
     
     DelHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     DelHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);

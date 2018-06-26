@@ -175,8 +175,8 @@ boolean deleteFromDB(bookptr book)
 	Int32 header;
 	bookptr bookBuf = calloc(1, sizeof(struct Book));
 	ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
-	ReadFileU(pool, fileID, sizeof(struct Book), -sizeof(struct Book), SEEK_END, bookBuf);
-	Write2File(pool, bookBuf, fileID, sizeof(struct Book), book->bookPos, 0);
+	ReadFileU(pool, fileID, sizeof(struct Book), -(Int32)(sizeof(struct Book)), SEEK_END, bookBuf);
+	Write2File(pool, bookBuf, fileID, sizeof(struct Book), sizeof(struct Book) * book->bookPos, SEEK_SET);
 	--header;
 	Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET);
 	CloseFile(pool, fileID);
