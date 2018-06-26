@@ -94,16 +94,20 @@ void update();
 Int32 getMode();
 void showInterface();
 void showBook(bookptr book, Int32 index);
+void showReturn();
+
 void insertUI(bookptr book);
 void insertUIReturn();
-void lookupUI();
+
 void lookupUIHead();
 Int32 lookupUIBody(Int32 *res);
 void lookupUITail();
-void deleteUI(bookptr book, Int32 index);
+
+boolean deleteUIGet(bookptr book, Int32 index);
 void deleteUIReturn();
 // void deleteUIHead();
 // void deleteUITail();
+
 void updateUIDel(bookptr book, Int32 index);
 void updateUI(bookptr book, Int32 index);
 void updateUIReturn();

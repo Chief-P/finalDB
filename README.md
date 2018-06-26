@@ -2,10 +2,12 @@
 
 clear buffer
 
+<del>clear screen</del>
+
 # Bugs
 
-readAllFile
+<del>readAllFile</del>
 
-delete index
+chaotic delete index
 
 lookup keyword/author

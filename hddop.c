@@ -45,7 +45,7 @@ void readAllFile()
 		Int32 header;
 		if (ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header))
 			puts("Fatal error: Fail to read file!");
-		printf("%ld", header);
+		printf("header: %ld\n", header);
 		if (header == BLOCK_NUM)
 			isFileFull[i] = true;
 		else
@@ -56,9 +56,7 @@ void readAllFile()
 			bookptr bookBuf = calloc(1, sizeof(struct Book));
 			if (ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf))
 				puts("Fatal error: Fail to read file!");
-			printf("error");
 			printf("%s\n", bookBuf->isbn);
-			printf("error");
 			add2ChainHash(bookBuf);
 			free(bookBuf);
 		}
@@ -84,7 +82,8 @@ boolean writeToDB(bookptr book)
 			}
 			Int32 header = 1;
 			book->filePos = i;
-			book->bookPos = header - 1;
+			book->bookPos = 0;
+			printf("header: %ld", header);
 			if (Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET))
 			{
 				puts("Fatal error: Fail to write file!");
@@ -93,7 +92,7 @@ boolean writeToDB(bookptr book)
 			isFileExisted[i] = true; // Update
 			if (Write2File(pool, book, fileID, sizeof(struct Book), 0, SEEK_CUR))
 			{
-				puts("Fatal error: Fail to append file!");
+				puts("Fatal error: Fail to write file!");
 				return false;
 			}
 			if (CloseFile(pool, fileID))
@@ -122,6 +121,7 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			++header;
+			printf("header: %ld", header);
 			if (Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET))
 			{
 				puts("Fatal error: Fail to write file!");

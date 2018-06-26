@@ -34,9 +34,6 @@ lib/stack.o: lib/stack.c
 lib/stringProcess.o: lib/stringProcess.c
 	$(CC) -c ./lib/stringProcess.c -o ./lib/stringProcess.o $(INCLUDE) -O2
 
-lib/filter.o: lib/filter.c
-	$(CC) -c ./lib/filter.c -o ./lib/filter.o $(INCLUDE) -O2
-
 dbop.o: dbop.c
 	$(CC) -c dbop.c -o dbop.o $(INCLUDE) -O2
 

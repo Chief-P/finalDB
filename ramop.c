@@ -21,6 +21,7 @@ boolean add2ChainHash(bookptr book)
 
     blockptr block = CreateBlock(book, sizeof(struct Book));
 	Int32 index = AddChain(chain, block);
+    printf("add: %ld", index);
 
     AddHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     AddHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
@@ -35,8 +36,7 @@ boolean add2ChainHash(bookptr book)
 boolean deleteFromChainHash(bookptr book, Int32 index)
 {
     Int32 i;
-    // Start from 1
-    ++index;
+    printf("delete: %ld", index);
     
     DelHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     DelHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
@@ -51,6 +51,7 @@ boolean deleteFromChainHash(bookptr book, Int32 index)
 boolean compareISBN(blockptr dst, blockptr param)
 {
     Int32 i;
+    boolean res = true;
     bookptr bufDst = calloc(1, sizeof(struct Book));
     bookptr bufParam = calloc(1, sizeof(struct Book));
 
@@ -60,14 +61,21 @@ boolean compareISBN(blockptr dst, blockptr param)
     Int32 length = sizeof(bufParam->isbn);
     for (i = 0; i < length; ++i)
         if (bufDst->isbn[i] != bufParam->isbn[i])
-            return false;
+        {
+            res = false;
+            break;
+        }
 
-    return true;
+    free(bufDst);
+    free(bufParam);
+
+    return res;
 }
 
 boolean compareName(blockptr dst, blockptr param)
 {
     Int32 i;
+    boolean res = true;
     bookptr bufDst = calloc(1, sizeof(struct Book));
     bookptr bufParam = calloc(1, sizeof(struct Book));
 
@@ -77,14 +85,21 @@ boolean compareName(blockptr dst, blockptr param)
     Int32 length = sizeof(bufParam->name);
     for (i = 0; i < length; ++i)
         if (bufDst->name[i] != bufParam->name[i])
-            return false;
+        {
+            res = false;
+            break;
+        }
 
-    return true;
+    free(bufDst);
+    free(bufParam);
+
+    return res;
 }
 
 boolean compareKeyword(blockptr dst, blockptr param)
 {
     Int32 i, j;
+    boolean res = true;
     bookptr bufDst = calloc(1, sizeof(struct Book));
     bookptr bufParam = calloc(1, sizeof(struct Book));
 
@@ -93,16 +108,29 @@ boolean compareKeyword(blockptr dst, blockptr param)
     
     Int32 length = sizeof(bufParam->keywords[0]);
     for (i = 0; i < MAX_KEYWORDS; ++i)
+    {
         for (j = 0; j < length; ++j)
             if ((bufDst->keywords[i])[j] != (bufParam->keywords[0])[j])
-                return false;
+            {
+                res = false;
+                printf("(%ld, %ld)", i, j);
+                break;
+            }
+        if (res == false)
+            break;
+    }
 
-    return true;
+    printf("(%ld, %ld)", i, j);
+    free(bufDst);
+    free(bufParam);
+
+    return res;
 }
 
 boolean compareAuthor(blockptr dst, blockptr param)
 {
     Int32 i, j;
+    boolean res = true;
     bookptr bufDst = calloc(1, sizeof(struct Book));
     bookptr bufParam = calloc(1, sizeof(struct Book));
 
@@ -111,9 +139,19 @@ boolean compareAuthor(blockptr dst, blockptr param)
     
     Int32 length = sizeof(bufParam->authors[0]);
     for (i = 0; i < MAX_AUTHORS; ++i)
+    {
          for (j = 0; j < length; ++j)
             if ((bufDst->authors[i])[j] != (bufParam->authors[0])[j])
-                return false;
+            {
+                res = false;
+                break;
+            }
+        if (res == false)
+            break;
+    }
 
-    return true;
+    free(bufDst);
+    free(bufParam);
+
+    return res;
 }

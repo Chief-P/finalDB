@@ -151,18 +151,6 @@ void insertUIReturn()
 	showReturn();
 }
 
-// Lookup UI
-void lookupUI()
-{
-	Int32 res[MAX_RESULT_NUM];
-
-	lookupUIHead();
-	Int32 length = lookupUIBody(res);
-	if (length)
-		lookupUITail();
-	showReturn();
-}
-
 void lookupUIHead()
 {
 	ClearScreen();
@@ -187,6 +175,7 @@ Int32 lookupUIBody(Int32 *res)
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
 		puts("* Please enter a valid Key from isbn/name/keyword/author");
 	
+	// Check initial character, not secure
 	puts("* Please enter corresponding value");
 	switch (key[0])
 	{
@@ -198,7 +187,7 @@ Int32 lookupUIBody(Int32 *res)
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return false;
+				return 0;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack =  Filter(stack, chain, compareISBN, param);
@@ -211,7 +200,7 @@ Int32 lookupUIBody(Int32 *res)
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return false;
+				return 0;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack = Filter(stack, chain, compareName, param);
@@ -224,7 +213,7 @@ Int32 lookupUIBody(Int32 *res)
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return false;
+				return 0;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack = Filter(stack, chain, compareKeyword, param);
@@ -237,7 +226,7 @@ Int32 lookupUIBody(Int32 *res)
 			if (stack == nullptr)
 			{
 				puts("---Not found in DB---");
-				return false;
+				return 0;
 			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack = Filter(stack, chain, compareAuthor, param);
@@ -267,7 +256,7 @@ void lookupUITail()
 
 
 // Delete UI: get the to-be-deleted book
-void deleteUI(bookptr book, Int32 index)
+boolean deleteUIGet(bookptr book, Int32 index)
 {
 	Int32 res[MAX_RESULT_NUM];
 
@@ -277,7 +266,7 @@ void deleteUI(bookptr book, Int32 index)
 
 	const Int32 resLen = lookupUIBody(res);
 	if (!resLen)
-		return;
+		return false;
 
 	puts("* Please enter the index of the book in the list");
 	string2 iBuf;
@@ -292,6 +281,8 @@ void deleteUI(bookptr book, Int32 index)
 		
 	index = res[i];
 	GetData(GetChain(chain, index), book);
+
+	return true;
 }
 
 void deleteUIReturn()
@@ -352,5 +343,6 @@ void updateUI(bookptr book, Int32 index)
 
 void updateUIReturn()
 {
-	
+	puts("---Successfully updated---");
+	showReturn();
 }

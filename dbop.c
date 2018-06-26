@@ -42,8 +42,17 @@ void insert()
 
 void lookup()
 {
-	// User interface
-	lookupUI();
+	Int32 res[MAX_RESULT_NUM];
+
+	lookupUIHead();
+
+	Int32 length = lookupUIBody(res);
+
+	// Redesign here
+	if (length)
+		lookupUITail();
+
+	showReturn();
 }
 
 void delete()
@@ -52,7 +61,8 @@ void delete()
 	Int32 index;
 
 	// User interface
-	deleteUI(book, index);
+	if (!deleteUIGet(book, index))
+		return;
 
 	// Delete from DB
 	deleteFromDB(book);

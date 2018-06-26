@@ -105,7 +105,7 @@ boolean ReadFileU(IOPoolptr Pool, const Int32 FileID, const Int32 size, const In
     fileptr file = Pool->files[FileID];
     if(!mode)return 1;
     if(feof(file))return 2;
-    buffer = calloc(1 , (size + 1));
+    // buffer = calloc(1 , (size + 1));
     fseek(file, offset, origin);
     Int32 _size = fread(buffer, size, 1, file);
     if(_size != 1)return 2;
