@@ -172,5 +172,17 @@ Int32 lookupUICore(Int32 *res)
 
 	// Display results
 
-	FreeStack(stack);
+	// puts("* Please enter the new value");
+	// while (!getString())
+	// 	puts("* Please enter a valid value (max length 127)");
+}
+
+void updateUIReturn(boolean isSuc)
+{
+	if (isSuc)
+		puts("---Successfully updated---");
+	else
+		puts("---Fail to update---");
+
+	showReturn();
 }
