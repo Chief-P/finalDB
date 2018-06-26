@@ -320,7 +320,7 @@ void updateUIDel(bookptr book, Int32 index)
 	GetData(GetChain(chain, index), book);
 }
 
-void updateUI(bookptr book, Int32 index)
+void updateUIGet(bookptr book, Int32 index)
 {
 	// puts("* Please enter the to-be-updated Key from isbn/name/keyword/author");
 	// string7 key;
