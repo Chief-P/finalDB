@@ -97,12 +97,15 @@ void update()
 		if (isUp)
 		{
 			writeToDB(book);
+			printf("err");
 
 			add2ChainHash(book);
+			printf("err");
 		}
 	}
 
 	free(book);
+	printf("err");
 
 	updateUIReturn(isGet && isUp);
 }

@@ -127,6 +127,14 @@ boolean writeToDB(bookptr book)
 				puts("Fatal error: Fail to write file!");
 				return false;
 			}
+			book->filePos = i;
+			book->bookPos = header - 1;
+			if (Write2File(pool, book, fileID, sizeof(struct Book), sizeof(header) + book->bookPos * sizeof(struct Book), SEEK_SET))
+			{
+				puts("Fatal error: Fail to write file!");
+				return false;
+			}
+
 			if (CloseFile(pool, fileID))
 			{
 				puts("Fatal error: Fail to close file!");
@@ -134,22 +142,6 @@ boolean writeToDB(bookptr book)
 			}
 			if (header == BLOCK_NUM)
 				isFileFull[i] = true;
-
-			// Append the book
-			fileID = AddFile(pool, fileName, ABIN);
-			if (fileID == -1)
-			{
-				puts("Fatal error: Fail to add file!");
-				return false;
-			}
-			book->filePos = i;
-			book->bookPos = header - 1;
-			if (AppendFile(pool, book, fileID, sizeof(struct Book)))
-			{
-				puts("Fatal error: Fail to append file!");
-				return false;
-			}
-			CloseFile(pool, fileID);
 
 			return true;
 		}
@@ -176,8 +168,8 @@ boolean deleteFromDB(bookptr book)
 	Int32 header;
 	bookptr bookBuf = calloc(1, sizeof(struct Book));
 	ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
-	ReadFileU(pool, fileID, sizeof(struct Book), 0, sizeof(header) + (header - 1) * sizeof(struct Book), bookBuf);
-	Write2File(pool, bookBuf, fileID, sizeof(struct Book), sizeof(struct Book) * book->bookPos, sizeof(header));
+	ReadFileU(pool, fileID, sizeof(struct Book), sizeof(header) + (header - 1) * sizeof(struct Book), SEEK_SET, bookBuf);
+	Write2File(pool, bookBuf, fileID, sizeof(struct Book), sizeof(header) + sizeof(struct Book) * book->bookPos, SEEK_SET);
 	--header;
 	Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET);
 	CloseFile(pool, fileID);
