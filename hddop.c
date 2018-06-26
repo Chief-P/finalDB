@@ -45,7 +45,7 @@ void readAllFile()
 		Int32 header;
 		if (ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header))
 			puts("Fatal error: Fail to read file!");
-		// printf("header: %ld\n", header);
+		printf("header: %ld\n", header);
 		if (header == BLOCK_NUM)
 			isFileFull[i] = true;
 		else
@@ -56,11 +56,11 @@ void readAllFile()
 			bookptr bookBuf = calloc(1, sizeof(struct Book));
 			if (ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf))
 				puts("Fatal error: Fail to read file!");
-			// printf("%s\n", bookBuf->isbn);
+			printf("%s\n", bookBuf->isbn);
 			add2ChainHash(bookBuf);
 			free(bookBuf);
 		}
-		// system("pause");
+		system("pause");
 	}
 }
 
@@ -121,7 +121,7 @@ boolean writeToDB(bookptr book)
 				return false;
 			}
 			++header;
-			printf("header: %ld", header);
+			// printf("header: %ld", header);
 			if (Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET))
 			{
 				puts("Fatal error: Fail to write file!");
@@ -176,7 +176,7 @@ boolean deleteFromDB(bookptr book)
 	Int32 header;
 	bookptr bookBuf = calloc(1, sizeof(struct Book));
 	ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header);
-	ReadFileU(pool, fileID, sizeof(struct Book), -(Int32)(sizeof(struct Book)), SEEK_END, bookBuf);
+	ReadFileU(pool, fileID, sizeof(struct Book), 0, sizeof(header) + (header - 1) * sizeof(struct Book), bookBuf);
 	Write2File(pool, bookBuf, fileID, sizeof(struct Book), sizeof(struct Book) * book->bookPos, sizeof(header));
 	--header;
 	Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET);

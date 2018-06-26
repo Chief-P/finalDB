@@ -58,6 +58,7 @@
 // Clear Screen for win and linux
 void ClearScreen();
 
+typedef char string1[2];
 typedef char string2[3];
 typedef char string7[8];
 typedef char string13[16];
@@ -102,8 +103,8 @@ Int32 lookupUICore(Int32 *res);
 void lookupUIReturn(boolean isSuc);
 boolean deleteUIGet(bookptr book, Int32 *index);
 void deleteUIReturn(boolean isSuc);
-void updateUIDel(bookptr book, Int32 *index);
-void updateUIGet(bookptr book, Int32 index);
+boolean updateUIDel(bookptr book, Int32 *index);
+boolean updateUIGet(bookptr book, Int32 index);
 void updateUIReturn(boolean isSuc);
 
 // HDD operation

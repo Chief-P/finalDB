@@ -79,23 +79,30 @@ void update()
 {
 	bookptr book = calloc(1, sizeof(struct Book));
 	Int32 index;
-	boolean isSuc;
+	boolean isGet, isUp;
 
 	// User interface: Get info to delete
-	updateUIDel(book, &index);
+	isGet = updateUIDel(book, &index);
 
-	deleteFromDB(book);
+	if (isGet)
+	{
+		deleteFromDB(book);
 
-	deleteFromChainHash(book, index);
+		// Not deleted from chain in fact
+		deleteFromChainHash(book, index);
 
-	// User interface: Get info to update
-	updateUIGet(book, index);
+		// User interface: Get info to update
+		isUp = updateUIGet(book, index);
 
-	writeToDB(book);
+		if (isUp)
+		{
+			writeToDB(book);
 
-	add2ChainHash(book);
+			add2ChainHash(book);
+		}
+	}
 
 	free(book);
 
-	updateUIReturn(isSuc);
+	updateUIReturn(isGet && isUp);
 }
