@@ -101,7 +101,7 @@ void showReturn()
 }
 
 // Insert UI
-void insertUI(bookptr book)
+void insertUIGet(bookptr book)
 {
 	Int32 i;
 
@@ -145,9 +145,13 @@ void insertUI(bookptr book)
 	}
 }
 
-void insertUIReturn()
+void insertUIReturn(boolean isSuc)
 {
-	puts("---Successfully Inserted---");
+	if (isSuc)
+		puts("---Successfully Inserted---");
+	else
+		puts("---Fail to insert---");
+
 	showReturn();
 }
 
@@ -160,10 +164,11 @@ void lookupUIHead()
 
 /*
 * Core of Lookup
+* Called in lookup, delete and update
 * @ param: res(record list of index in chain)
 * @ return: list length
 */
-Int32 lookupUIBody(Int32 *res)
+Int32 lookupUICore(Int32 *res)
 {
 	stackptr stack, filteredStack;
 	blockptr param;
@@ -185,10 +190,7 @@ Int32 lookupUIBody(Int32 *res)
 				puts("* Please enter a valid value (max length 13)");
 			stack = SearchHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33));
 			if (stack == nullptr)
-			{
-				puts("---Not found in DB---");
 				return 0;
-			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack =  Filter(stack, chain, compareISBN, param);
 			break;
@@ -198,10 +200,7 @@ Int32 lookupUIBody(Int32 *res)
 				puts("* Please enter a valid value (max length 127)");
 			stack = SearchHash(nameHashT, Hash(book->name, strlen(book->name), TIME33));
 			if (stack == nullptr)
-			{
-				puts("---Not found in DB---");
 				return 0;
-			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack = Filter(stack, chain, compareName, param);
 			break;
@@ -211,10 +210,7 @@ Int32 lookupUIBody(Int32 *res)
 				puts("* Please enter a valid value (max length 127)");
 			stack = SearchHash(keywordsHashT, Hash(book->keywords[0], strlen(book->keywords[0]), TIME33));
 			if (stack == nullptr)
-			{
-				puts("---Not found in DB---");
 				return 0;
-			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack = Filter(stack, chain, compareKeyword, param);
 			break;
@@ -224,10 +220,7 @@ Int32 lookupUIBody(Int32 *res)
 				puts("* Please enter a valid value (max length 127)");
 			stack = SearchHash(authorsHashT, Hash(book->authors[0], strlen(book->authors[0]), TIME33));
 			if (stack == nullptr)
-			{
-				puts("---Not found in DB---");
 				return 0;
-			}
 			param = CreateBlock(book, sizeof(struct Book));
 			filteredStack = Filter(stack, chain, compareAuthor, param);
 			break;
@@ -249,9 +242,14 @@ Int32 lookupUIBody(Int32 *res)
 	return i;
 }
 
-void lookupUITail()
+void lookupUIReturn(boolean isSuc)
 {
-	puts("---Successfully found---");
+	if (isSuc)
+		puts("---Successfully found---");
+	else
+		puts("---Not found in DB---");
+
+	showReturn();
 }
 
 
@@ -264,7 +262,7 @@ boolean deleteUIGet(bookptr book, Int32 index)
 	puts("-----Delete Mode------");
 	puts("* Please enter a Key from isbn/name/keyword/author");
 
-	const Int32 resLen = lookupUIBody(res);
+	const Int32 resLen = lookupUICore(res);
 	if (!resLen)
 		return false;
 
@@ -285,21 +283,15 @@ boolean deleteUIGet(bookptr book, Int32 index)
 	return true;
 }
 
-void deleteUIReturn()
+void deleteUIReturn(boolean isSuc)
 {
-	puts("---Successfully deleted---");
+	if (isSuc)
+		puts("---Successfully deleted---");
+	else
+		puts("---Not found in DB---");
+
 	showReturn();
 }
-
-// void deleteUIHead()
-// {
-
-// }
-
-// void deleteUITail()
-// {
-
-// }
 
 void updateUIDel(bookptr book, Int32 index)
 {
@@ -309,7 +301,7 @@ void updateUIDel(bookptr book, Int32 index)
 	puts("-----Update Mode------");
 	puts("* Please enter a Key from isbn/name/keyword/author to find the book");
 
-	const Int32 resLen = lookupUIBody(res);
+	const Int32 resLen = lookupUICore(res);
 	if (!resLen)
 		return;
 
@@ -341,8 +333,12 @@ void updateUI(bookptr book, Int32 index)
 	// 	puts("* Please enter a valid value (max length 127)");
 }
 
-void updateUIReturn()
+void updateUIReturn(boolean isSuc)
 {
-	puts("---Successfully updated---");
+	if (isSuc)
+		puts("---Successfully updated---");
+	else
+		puts("---Fail to update---");
+
 	showReturn();
 }

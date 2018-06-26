@@ -33,6 +33,7 @@ int main(int argc, char const *argv[])
     
 	showInterface();
 
+	// No exit from mode
 	while (1)
 	{
 		mode = getMode();
@@ -70,8 +71,6 @@ int main(int argc, char const *argv[])
 	FreeHashTable(keywordsHashT);
 	FreeHashTable(authorsHashT);
 	FreeIOPool(pool);
-
-	puts("OK");
 
 	return 0;
 }

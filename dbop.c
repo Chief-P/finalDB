@@ -18,75 +18,78 @@ extern boolean isFileFull[MAX_FILE_NUM];
 void insert()
 {
     bookptr book = calloc(1, sizeof(struct Book));
+	boolean isWrite, isAdd;
 
-	// User interface
-	insertUI(book);
+	// User interface: Get info
+	insertUIGet(book);
 
-	// Write into DB
-	boolean isWrite = writeToDB(book);
+	isWrite = writeToDB(book);
 
-	// Add to Chain and HashTable
-	if (!isWrite)
-		return;
-	boolean isAdd = add2ChainHash(book);
+	// Synchronized ram and hdd op
+	if (isWrite)
+		isAdd = add2ChainHash(book);
 
-	// Delete from DB
-	// if (isAdd)
-	// 	return;
-	// deleteFromDB(book);
+	if (isWrite && !isAdd)
+		deleteFromDB(book);
 
 	free(book);
 
-	insertUIReturn();
+	// Return message
+	insertUIReturn(isWrite && isAdd);
 }
 
 void lookup()
 {
 	Int32 res[MAX_RESULT_NUM];
+	Int32 length;
 
+	// User interface: Head
 	lookupUIHead();
 
-	Int32 length = lookupUIBody(res);
+	// User interface: Core operation
+	length = lookupUICore(res);
 
-	// Redesign here
-	if (length)
-		lookupUITail();
-
-	showReturn();
+	// Return message
+	lookupUIReturn(length);
 }
 
 void delete()
 {
     bookptr book = calloc(1, sizeof(struct Book));
 	Int32 index;
+	boolean isSuc;
 
-	// User interface
-	if (!deleteUIGet(book, index))
-		return;
+	// User interface： Get info
+	isSuc = deleteUIGet(book, index);
 
-	// Delete from DB
-	deleteFromDB(book);
+	if (isSuc)
+	{
+		deleteFromDB(book);
 
-	// Remove from Chain and HashTable
-	deleteFromChainHash(book, index);
+		deleteFromChainHash(book, index);
+	}
 
 	free(book);
 
-	deleteUIReturn();
+	// Return message
+	deleteUIReturn(isSuc);
 }
 
 void update()
 {
 	bookptr book = calloc(1, sizeof(struct Book));
 	Int32 index;
+	boolean isSuc;
 
+	// User interface: Get info to delete
 	updateUIDel(book, index);
 
 	deleteFromDB(book);
 
 	deleteFromChainHash(book, index);
 
-	updateUI(book, index);
+	// User interface: Get info to update
+	updateUIGet(book, index);
 
 	writeToDB(book);
 
@@ -94,5 +97,5 @@ void update()
 
 	free(book);
 
-	updateUIReturn();
+	updateUIReturn(isSuc);
 }

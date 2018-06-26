@@ -95,22 +95,16 @@ Int32 getMode();
 void showInterface();
 void showBook(bookptr book, Int32 index);
 void showReturn();
-
-void insertUI(bookptr book);
-void insertUIReturn();
-
+void insertUIGet(bookptr book);
+void insertUIReturn(boolean isSuc);
 void lookupUIHead();
-Int32 lookupUIBody(Int32 *res);
-void lookupUITail();
-
+Int32 lookupUICore(Int32 *res);
+void lookupUIReturn(boolean isSuc);
 boolean deleteUIGet(bookptr book, Int32 index);
-void deleteUIReturn();
-// void deleteUIHead();
-// void deleteUITail();
-
+void deleteUIReturn(boolean isSuc);
 void updateUIDel(bookptr book, Int32 index);
-void updateUI(bookptr book, Int32 index);
-void updateUIReturn();
+void updateUIGet(bookptr book, Int32 index);
+void updateUIReturn(boolean isSuc);
 
 // HDD operation
 void readAllFile();

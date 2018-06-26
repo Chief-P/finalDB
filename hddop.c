@@ -163,6 +163,7 @@ boolean writeToDB(bookptr book)
 boolean deleteFromDB(bookptr book)
 {
 	// If file num is more than 9, modify here
+	// Assume no rw error
 	char fileName[5] = "dat ";
 	fileName[3] = (char)(book->filePos + '0');
 	Int32 fileID = AddFile(pool, fileName, WRBIN);
@@ -181,4 +182,6 @@ boolean deleteFromDB(bookptr book)
 	Write2File(pool, &header, fileID, sizeof(header), 0, SEEK_SET);
 	CloseFile(pool, fileID);
 	free(bookBuf);
+
+	return true;
 }
