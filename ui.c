@@ -339,13 +339,18 @@ void updateUIDel(bookptr book, Int32 index)
 
 void updateUI(bookptr book, Int32 index)
 {
-	puts("* Please enter the to-be-updated Key from isbn/name/keyword/author");
-	string7 key;
-	while (!getString(key, sizeof(key), false, false) 
-		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
-		puts("* Please enter a valid Key from isbn/name/keyword/author");
+	// puts("* Please enter the to-be-updated Key from isbn/name/keyword/author");
+	// string7 key;
+	// while (!getString(key, sizeof(key), false, false) 
+	// 	|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
+	// 	puts("* Please enter a valid Key from isbn/name/keyword/author");
 
-	puts("* Please enter the new value");
-	while (!getString())
-		puts("* Please enter a valid value (max length 127)");
+	// puts("* Please enter the new value");
+	// while (!getString())
+	// 	puts("* Please enter a valid value (max length 127)");
+}
+
+void updateUIReturn()
+{
+	
 }

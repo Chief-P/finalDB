@@ -51,9 +51,9 @@ int main(int argc, char const *argv[])
 			case LOOKUP :
 				lookup();
 				break;
-			case UPDATE :
-				update();
-				break;
+			// case UPDATE :
+			// 	update();
+			// 	break;
 			case REMOVE :
 				delete();
 				break;
@@ -63,8 +63,6 @@ int main(int argc, char const *argv[])
 		}
 	}
 
-	puts("OK");
-
 	// Free structure
 	FreeChain(chain);
 	FreeHashTable(isbnHashT);
@@ -72,6 +70,8 @@ int main(int argc, char const *argv[])
 	FreeHashTable(keywordsHashT);
 	FreeHashTable(authorsHashT);
 	FreeIOPool(pool);
+
+	puts("OK");
 
 	return 0;
 }

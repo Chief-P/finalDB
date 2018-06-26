@@ -106,6 +106,7 @@ void deleteUIReturn();
 // void deleteUITail();
 void updateUIDel(bookptr book, Int32 index);
 void updateUI(bookptr book, Int32 index);
+void updateUIReturn();
 
 // HDD operation
 void readAllFile();

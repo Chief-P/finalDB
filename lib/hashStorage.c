@@ -11,6 +11,7 @@ hashcptr CreateHashChain(Uint32 hash)
 
 void FreeHashChain(hashcptr hashchain)
 {
+    if(hashchain == nullptr) return;
     free(hashchain->data);
     free(hashchain);
 }
@@ -63,7 +64,7 @@ hashtptr CreateHashTable()
 void FreeHashTable(hashtptr hashtable)
 {
     hashcptr temp1, temp2;
-    for(temp1 = hashtable->head_hashchain; temp1->isEnd != true;){
+    for(temp1 = hashtable->head_hashchain; temp1 != nullptr && temp1->isEnd != true;){
         temp2 = temp1;
         temp1 = temp1->next;
         FreeHashChain(temp2);

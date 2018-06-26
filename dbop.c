@@ -76,7 +76,7 @@ void update()
 
 	deleteFromChainHash(book, index);
 
-	updateUI(book);
+	updateUI(book, index);
 
 	writeToDB(book);
 
