@@ -21,7 +21,7 @@ boolean add2ChainHash(bookptr book)
 
     blockptr block = CreateBlock(book, sizeof(struct Book));
 	Int32 index = AddChain(chain, block);
-    printf("add: %ld\n", index);
+    // printf("add: %ld\n", index);
 
     AddHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     AddHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
@@ -36,9 +36,9 @@ boolean add2ChainHash(bookptr book)
 boolean deleteFromChainHash(bookptr book, Int32 index)
 {
     Int32 i;
-    printf("delete: %ld\n", index);
+    // printf("delete: %ld\n", index);
 
-    // Delete from chain
+    // Delete from chain should be here
     
     DelHash(isbnHashT, Hash(book->isbn, strlen(book->isbn), TIME33), index);
     DelHash(nameHashT, Hash(book->name, strlen(book->name), TIME33), index);
@@ -101,7 +101,7 @@ boolean compareName(blockptr dst, blockptr param)
 boolean compareKeyword(blockptr dst, blockptr param)
 {
     Int32 i, j;
-    boolean res = true;
+    boolean res;
     bookptr bufDst = calloc(1, sizeof(struct Book));
     bookptr bufParam = calloc(1, sizeof(struct Book));
 
@@ -111,18 +111,17 @@ boolean compareKeyword(blockptr dst, blockptr param)
     Int32 length = sizeof(bufParam->keywords[0]);
     for (i = 0; i < MAX_KEYWORDS; ++i)
     {
+        res = true;
         for (j = 0; j < length; ++j)
             if ((bufDst->keywords[i])[j] != (bufParam->keywords[0])[j])
             {
                 res = false;
-                printf("(%ld, %ld)", i, j);
                 break;
             }
-        if (res == false)
+        if (res == true)
             break;
     }
 
-    printf("(%ld, %ld)", i, j);
     free(bufDst);
     free(bufParam);
 
@@ -132,7 +131,7 @@ boolean compareKeyword(blockptr dst, blockptr param)
 boolean compareAuthor(blockptr dst, blockptr param)
 {
     Int32 i, j;
-    boolean res = true;
+    boolean res;
     bookptr bufDst = calloc(1, sizeof(struct Book));
     bookptr bufParam = calloc(1, sizeof(struct Book));
 
@@ -142,13 +141,14 @@ boolean compareAuthor(blockptr dst, blockptr param)
     Int32 length = sizeof(bufParam->authors[0]);
     for (i = 0; i < MAX_AUTHORS; ++i)
     {
-         for (j = 0; j < length; ++j)
+        res = true;
+        for (j = 0; j < length; ++j)
             if ((bufDst->authors[i])[j] != (bufParam->authors[0])[j])
             {
                 res = false;
                 break;
             }
-        if (res == false)
+        if (res == true)
             break;
     }
 

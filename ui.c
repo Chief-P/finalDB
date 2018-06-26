@@ -254,7 +254,7 @@ void lookupUIReturn(boolean isSuc)
 
 
 // Delete UI: get the to-be-deleted book
-boolean deleteUIGet(bookptr book, Int32 index)
+boolean deleteUIGet(bookptr book, Int32 *index)
 {
 	Int32 res[MAX_RESULT_NUM];
 
@@ -269,16 +269,16 @@ boolean deleteUIGet(bookptr book, Int32 index)
 	puts("* Please enter the index of the book in the list");
 	string2 iBuf;
 	Int32 i = resLen + 1;
-	while (i > resLen)
+	while (i > resLen || i < 0)
 	{
 		puts("* Index should be in the list above");
 		while (!getString(iBuf, 2, false, false))
 			puts("* Please enter a valid i from the book list");
 		i = atoi(iBuf);
 	}
-		
-	index = res[i];
-	GetData(GetChain(chain, index), book);
+	
+	*index = res[i];
+	GetData(GetChain(chain, *index), book);
 
 	return true;
 }
@@ -293,7 +293,7 @@ void deleteUIReturn(boolean isSuc)
 	showReturn();
 }
 
-void updateUIDel(bookptr book, Int32 index)
+void updateUIDel(bookptr book, Int32 *index)
 {
 	Int32 res[MAX_RESULT_NUM];
 
@@ -316,8 +316,8 @@ void updateUIDel(bookptr book, Int32 index)
 		i = atoi(iBuf);
 	}
 		
-	index = res[i];
-	GetData(GetChain(chain, index), book);
+	*index = res[i];
+	GetData(GetChain(chain, *index), book);
 }
 
 void updateUIGet(bookptr book, Int32 index)

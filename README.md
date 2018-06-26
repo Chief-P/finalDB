@@ -6,8 +6,8 @@ clear buffer
 
 # Bugs
 
-<del>readAllFile</del>
+<del>failure to readAllFile</del> (bug: in function ReadFileU)
 
-chaotic delete index
+<del>chaotic delete index</del> (bug: value-pass of function deleteUIGet)
 
-lookup keyword/author
+<del>failure to lookup keyword/author</del> (bug: logical error of compare function)

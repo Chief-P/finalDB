@@ -100,9 +100,9 @@ void insertUIReturn(boolean isSuc);
 void lookupUIHead();
 Int32 lookupUICore(Int32 *res);
 void lookupUIReturn(boolean isSuc);
-boolean deleteUIGet(bookptr book, Int32 index);
+boolean deleteUIGet(bookptr book, Int32 *index);
 void deleteUIReturn(boolean isSuc);
-void updateUIDel(bookptr book, Int32 index);
+void updateUIDel(bookptr book, Int32 *index);
 void updateUIGet(bookptr book, Int32 index);
 void updateUIReturn(boolean isSuc);
 

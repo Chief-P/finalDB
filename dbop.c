@@ -60,7 +60,7 @@ void delete()
 	boolean isSuc;
 
 	// User interface： Get info
-	isSuc = deleteUIGet(book, index);
+	isSuc = deleteUIGet(book, &index);
 
 	if (isSuc)
 	{
@@ -82,7 +82,7 @@ void update()
 	boolean isSuc;
 
 	// User interface: Get info to delete
-	updateUIDel(book, index);
+	updateUIDel(book, &index);
 
 	deleteFromDB(book);
 
