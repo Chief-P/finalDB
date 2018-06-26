@@ -15,8 +15,8 @@ extern IOPoolptr pool;
 extern boolean isFileExisted[MAX_FILE_NUM];
 extern boolean isFileFull[MAX_FILE_NUM];
 
-//
-void ClearScreen(){
+void ClearScreen()
+{
 #ifdef WIN32
 	system("cls");
 #elif __linux__
@@ -119,9 +119,23 @@ void lookupUI()
 
 	clear();
 	puts("-----Lookup Mode------");
-	puts("* Please enter from isbn/name/keyword/author");
-	
-	string127 key;
+	puts("* Please enter a Key from isbn/name/keyword/author");
+}
+
+/*
+* Core of Lookup
+* Called in lookup, delete and update
+* @ param: res(record list of index in chain)
+* @ return: list length
+*/
+Int32 lookupUICore(Int32 *res)
+{
+	stackptr stack, filteredStack;
+	blockptr param;
+	bookptr book = calloc(1, sizeof(struct Book));
+	Int32 i;
+
+	string7 key;
 	while (!getString(key, sizeof(key), false, false) 
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
 		puts("* Please enter a valid Key from isbn/name/keyword/author");
