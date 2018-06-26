@@ -14,6 +14,7 @@ hashtptr authorsHashT;
 IOPoolptr pool;
 boolean isFileExisted[MAX_FILE_NUM];
 boolean isFileFull[MAX_FILE_NUM];
+// struct DatePosition index2datPos[MAX_BOOK_CAP];
 
 int main(int argc, char const *argv[])
 {
@@ -32,6 +33,7 @@ int main(int argc, char const *argv[])
     
 	showInterface();
 
+	// No exit from mode
 	while (1)
 	{
 		mode = getMode();
@@ -53,9 +55,9 @@ int main(int argc, char const *argv[])
 			// case UPDATE :
 			// 	update();
 			// 	break;
-			// case REMOVE :
-			// 	delete();
-			// 	break;
+			case REMOVE :
+				delete();
+				break;
 			// case VIEW :
 			// 	view();
 			// 	break;

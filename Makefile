@@ -1,8 +1,8 @@
 CC  = gcc -static
 CCL = gcc -static 
 INCLUDE = -I.
-DST = a.out
-MODULE = lib/block.o lib/chain.o lib/fs.o lib/hash.o lib/hashStorage.o lib/stack.o operation.o ui.o dbio.o
+DST = a.exe
+MODULE = lib/block.o lib/chain.o lib/fs.o lib/hash.o lib/hashStorage.o lib/stack.o lib/stringProcess.o lib/filter.o dbop.o ui.o ramop.o hddop.o
 
 $(DST): $(MODULE) main.o
 	$(CC) main.o $(MODULE) -o $(DST) $(INCLUDE)
@@ -31,14 +31,17 @@ lib/hashStorage.o: lib/hashStorage.c
 lib/stack.o: lib/stack.c
 	$(CC) -c ./lib/stack.c -o ./lib/stack.o $(INCLUDE) -O2
 
-lib/stringProcess: lib/stringProcess.c
+lib/stringProcess.o: lib/stringProcess.c
 	$(CC) -c ./lib/stringProcess.c -o ./lib/stringProcess.o $(INCLUDE) -O2
 
-operation.o: operation.c
-	$(CC) -c operation.c -o operation.o $(INCLUDE) -O2
+dbop.o: dbop.c
+	$(CC) -c dbop.c -o dbop.o $(INCLUDE) -O2
 
 ui.o: ui.c
 	$(CC) -c ui.c -o ui.o $(INCLUDE) -O2
 
-dbio.o: dbio.c
-	$(CC) -c dbio.c -o dbio.o $(INCLUDE) -O2
+hddop.o: hddop.c
+	$(CC) -c hddop.c -o hddop.o $(INCLUDE) -O2
+
+ramop.o: ramop.c
+	$(CC) -c ramop.c -o ramop.o $(INCLUDE) -O2

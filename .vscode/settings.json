@@ -9,6 +9,7 @@
         "stdio.h": "c",
         "windows.h": "c",
         "operation.h": "c",
-        "stringprocess.h": "c"
+        "stringprocess.h": "c",
+        "types.h": "c"
     }
 }

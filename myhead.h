@@ -1,7 +1,6 @@
 #ifndef MYHEAD_H
 #define MYHEAD_H
 
-#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,13 +11,18 @@
 #include "include/hashStorage.h"
 #include "include/stack.h"
 #include "include/stringProcess.h"
+#include "include/filter.h"
 #include "include/types.h"
+
+// UI related constants
+#define MAX_RESULT_NUM 99
 
 // IO pool related constants
 
 
 // File related constants
-#define MAX_FILE_NUM   1024
+#define MAX_BOOK_CAP   32768
+#define MAX_FILE_NUM   128     // Should be less than 10
 #define FILE_SIZE      364544
 #define BLOCK_NUM      256
 #define BLOCK_SIZE     1424
@@ -44,17 +48,18 @@
 #define UPDATE      3
 #define REMOVE      4
 #define VIEW        5
+#define RETURN      6
 #define QUIT       -1
 
 #ifdef WIN32
 #include <windows.h>
 #endif
-// Clear Screen for UNIX
-// #define clear() printf("\e[1;1H\e[2J");
 
 // Clear Screen for win and linux
 void ClearScreen();
 
+typedef char string2[3];
+typedef char string7[8];
 typedef char string13[16];
 typedef char string127[128];
 
@@ -65,22 +70,54 @@ struct Book
 	string127 name;
 	string127 keywords[MAX_KEYWORDS];
 	string127 authors[MAX_AUTHORS];
+
+	Uint32 filePos;
+	Uint32 bookPos;
 };
 typedef struct Book *bookptr;
 
-// Operation
+// Pos of block of date in file
+// struct DatePosition
+// {
+// 	Uint32 filePos;
+// 	Uint32 blockPos;
+// };
+// typedef struct DatePosition *datPosptr;
+
+// Database operation
 void insert();
 void lookup();
+void delete();
+void update();
 
 // UI
 Int32 getMode();
 void showInterface();
-void insertUI(bookptr book);
+void showBook(bookptr book, Int32 index);
+void showReturn();
+void insertUIGet(bookptr book);
+void insertUIReturn(boolean isSuc);
+void lookupUIHead();
+Int32 lookupUICore(Int32 *res);
+void lookupUIReturn(boolean isSuc);
+boolean deleteUIGet(bookptr book, Int32 index);
+void deleteUIReturn(boolean isSuc);
+void updateUIDel(bookptr book, Int32 index);
+void updateUIGet(bookptr book, Int32 index);
+void updateUIReturn(boolean isSuc);
 
-// DB IO
+// HDD operation
+void readAllFile();
 boolean writeToDB(bookptr book);
+boolean deleteFromDB(bookptr book);
 
-// Hash Ad
-boolean addToHash(bookptr book);
+// RAM operation
+boolean add2ChainHash(bookptr book);
+boolean deleteFromChainHash(bookptr book, Int32 index);
+boolean compareISBN(blockptr dst, blockptr param);
+boolean compareName(blockptr dst, blockptr param);
+boolean compareKeyword(blockptr dst, blockptr param);
+boolean compareAuthor(blockptr dst, blockptr param);
+
 
 #endif
