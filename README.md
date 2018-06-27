@@ -12,7 +12,7 @@ multikey search
 
 <del>failure to lookup keyword/author</del> (bug: logical error of compare function)
 
-crash when updating
+<del>crash when updating</del> (bug: printf solved)
 
 # Compatiblity problem
 
