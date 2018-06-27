@@ -57,6 +57,9 @@ void readAllFile()
 			if (ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf))
 				puts("Fatal error: Fail to read file!");
 			printf("%s\n", bookBuf->isbn);
+			printf("%s\n", bookBuf->name);
+			printf("%s\n", bookBuf->keywords[0]);
+			printf("%s\n", bookBuf->authors[0]);
 			add2ChainHash(bookBuf);
 			free(bookBuf);
 		}
@@ -134,7 +137,7 @@ boolean writeToDB(bookptr book)
 				puts("Fatal error: Fail to write file!");
 				return false;
 			}
-
+			
 			if (CloseFile(pool, fileID))
 			{
 				puts("Fatal error: Fail to close file!");

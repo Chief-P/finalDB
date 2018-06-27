@@ -120,5 +120,4 @@ boolean compareName(blockptr dst, blockptr param);
 boolean compareKeyword(blockptr dst, blockptr param);
 boolean compareAuthor(blockptr dst, blockptr param);
 
-
 #endif

@@ -159,7 +159,7 @@ void lookupUIHead()
 {
 	ClearScreen();
 	puts("-----Lookup Mode------");
-	puts("* Please enter a Key from isbn/name/author/author");
+	puts("* Please enter a Key from isbn/name/keyword/author");
 }
 
 /*
@@ -178,7 +178,7 @@ Int32 lookupUICore(Int32 *res)
 	string7 key;
 	while (!getString(key, sizeof(key), false, false) 
 		|| !(key[0] == 'i' || key[0] == 'n' || key[0] == 'k' || key[0] == 'a'))
-		puts("* Please enter a valid Key from isbn/name/author/author");
+		puts("* Please enter a valid Key from isbn/name/keyword/author");
 	
 	// Check initial character, not secure
 	puts("* Please enter corresponding value");
@@ -310,13 +310,14 @@ boolean updateUIDel(bookptr book, Int32 *index)
 	puts("* Please enter the index of the book in the list");
 	string2 iBuf;
 	Int32 i = resLen + 1;
-	while (i > resLen || i < 0)
+	do
 	{
-		puts("* Index should be in the list above");
 		while (!getString(iBuf, 2, false, false))
 			puts("* Please enter a valid value (max length 2)");
 		i = atoi(iBuf);
-	}
+		if (i > resLen || i < 0)
+			puts("* Index should be in the list above");
+	} while (i > resLen || i < 0);
 		
 	*index = res[i];
 	GetData(GetChain(chain, *index), book);
@@ -356,12 +357,15 @@ boolean updateUIGet(bookptr book, Int32 index)
 			{
 				while (!getString(iStr, 1, true, false))
 					puts("* Please enter a valid value (max length 1)");
-				i = atoi(iStr);
-				if (i >= MAX_KEYWORDS || i < 0)
+				i = (Int32)atoi(iStr);
+				printf("%s ", iStr);
+				// printf("%ld", i);
+				// Fail to tell alphabet, atoi sucks
+				if (i > MAX_KEYWORDS || i < 0)
 					puts("* Please enter a valid index (1 ~ 5)");
-			} while (i >= MAX_KEYWORDS || i < 0);
-			puts("* Please enter the new value");
+			} while (i > MAX_KEYWORDS || i < 0);
 
+			puts("* Please enter the new value");
 			while (!getString(book->keywords[i - 1], LEN_KEYWORD, false, false))
 				puts("* Please enter a valid value (max length 127)");
 			break;
@@ -373,9 +377,9 @@ boolean updateUIGet(bookptr book, Int32 index)
 				while (!getString(iStr, 1, true, false))
 					puts("* Please enter a valid value (max length 1)");
 				i = atoi(iStr);
-				if (i >= MAX_AUTHORS || i < 0)
+				if (i > MAX_AUTHORS || i < 0)
 					puts("* Please enter a valid index (1 ~ 5)");
-			} while (i >= MAX_AUTHORS || i < 0);
+			} while (i > MAX_AUTHORS || i < 0);
 
 			puts("* Please enter the new value");
 			while (!getString(book->authors[i - 1], LEN_AUTHOR, false, false))
