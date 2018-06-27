@@ -93,10 +93,6 @@ void update()
 
 		// User interface: Get info to update
 		isUp = updateUIGet(book, index);
-		printf("%s\n", book->isbn);
-		printf("%s\n", book->name);
-		printf("%s\n", book->keywords[0]);
-		printf("%s\n", book->authors[0]);
 
 		if (isUp)
 		{
@@ -107,7 +103,6 @@ void update()
 	}
 
 	free(book);
-	printf("ok");
 
 	updateUIReturn(isGet && isUp);
 }

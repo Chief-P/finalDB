@@ -45,7 +45,7 @@ void readAllFile()
 		Int32 header;
 		if (ReadFileU(pool, fileID, sizeof(header), 0, SEEK_SET, &header))
 			puts("Fatal error: Fail to read file!");
-		printf("header: %ld\n", header);
+		// printf("header: %ld\n", header);
 		if (header == BLOCK_NUM)
 			isFileFull[i] = true;
 		else
@@ -56,14 +56,11 @@ void readAllFile()
 			bookptr bookBuf = calloc(1, sizeof(struct Book));
 			if (ReadFileU(pool, fileID, sizeof(struct Book), 0, SEEK_CUR, bookBuf))
 				puts("Fatal error: Fail to read file!");
-			printf("%s\n", bookBuf->isbn);
-			printf("%s\n", bookBuf->name);
-			printf("%s\n", bookBuf->keywords[0]);
-			printf("%s\n", bookBuf->authors[0]);
+			// printf("%s\n", bookBuf->isbn);
 			add2ChainHash(bookBuf);
 			free(bookBuf);
 		}
-		system("pause");
+		// system("pause");
 	}
 }
 

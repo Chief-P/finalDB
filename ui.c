@@ -358,8 +358,7 @@ boolean updateUIGet(bookptr book, Int32 index)
 				while (!getString(iStr, 1, true, false))
 					puts("* Please enter a valid value (max length 1)");
 				i = (Int32)atoi(iStr);
-				printf("%s ", iStr);
-				// printf("%ld", i);
+				printf("Input: %ld\n", i);
 				// Fail to tell alphabet, atoi sucks
 				if (i > MAX_KEYWORDS || i < 0)
 					puts("* Please enter a valid index (1 ~ 5)");
@@ -377,6 +376,7 @@ boolean updateUIGet(bookptr book, Int32 index)
 				while (!getString(iStr, 1, true, false))
 					puts("* Please enter a valid value (max length 1)");
 				i = atoi(iStr);
+				printf("Input: %ld\n", i);
 				if (i > MAX_AUTHORS || i < 0)
 					puts("* Please enter a valid index (1 ~ 5)");
 			} while (i > MAX_AUTHORS || i < 0);
